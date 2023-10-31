@@ -24,3 +24,15 @@ Each file URL consists of the following pattern
 
 ### Bhavcopy file format
 Within each file (or bhavcopy) the data is arranged in CSV format and each column is fixed. I will explain the inner-details in coming week(s)
+
+Questions
+
+1. 
+
+2. 
+
+3. 
+
+4. 
+
+
