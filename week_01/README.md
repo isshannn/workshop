@@ -22,6 +22,18 @@ Each file URL consists of the following pattern
     - MMM - Month part of the file name, for example, OCT
     - YYYY - Year part of the file name, for example, 2023
 
+## Validations
+[ ] Ensure that you only save the CSV files and not the ZIP files.
+[ ] Ensure that the date entered by the user is correct
+    - Only valid date format is accepts. And the date format should be DD/MMM/YYYY
+[ ] Ensure that you do not fetch data for weekends
+    - Bhavcopy files are available only for weekdays.
+[ ] Ensure that you do not fetch data for NSE holidays
+    - NSE holidays are market close days and bhavcopy is not available
+    - [Holiday List](https://groww.in/p/nse-holidays)
+[ ] Ensure that you do not fetch files that are already existing
+    - There is no point re-downloading a file that already exists
+
 ### Bhavcopy file format
 Within each file (or bhavcopy) the data is arranged in CSV format and each column is fixed. I will explain the inner-details in coming week(s)
 
