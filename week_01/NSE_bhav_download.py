@@ -10,8 +10,17 @@ def file_downloader(url):
 def verify_date(argument):
     if(argument):
         t_date =  date.today()
-        return t_date
+        if (t_date < argument):
+            return None
+        if (t_date == argument):
+            return None
+        if(t_date > argument):
+            return argument
 
 # print("Enter Date")
 # dd = input()
+# print("Enter Month")
+# mm = input()
+# print("Enter Year")
+# yy = input()
 

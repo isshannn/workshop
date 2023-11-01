@@ -43,7 +43,7 @@ Questions
 
 2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   
 
-3. 
+3. do we write set up and tear down function inside a class?
 
 4. 
 
