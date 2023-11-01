@@ -43,10 +43,13 @@ Questions
 
 1. How do you operate with dates in Python?
 Ans: Look for an external python library from internet.
+
 2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   
 Ans: Look for an external python library from internet.
+
 3. do we write set up and tear down function inside a class?
 Ans: Refer to the online examples on the net.
+
 4. 
 
 
