@@ -39,9 +39,9 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 
 Questions
 
-1. 
+1. How do you operate with dates in Python?
 
-2. 
+2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   
 
 3. 
 
