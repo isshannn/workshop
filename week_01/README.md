@@ -33,6 +33,8 @@ Each file URL consists of the following pattern
     - [Holiday List](https://groww.in/p/nse-holidays)
 [ ] Ensure that you do not fetch files that are already existing
     - There is no point re-downloading a file that already exists
+[ ] Ensure that you do not attempt to download the same-day bhavcopy before 7 PM.
+    - Bhav copy is made available after the end of the day; typiccally after 6.30 PM.
 
 ### Bhavcopy file format
 Within each file (or bhavcopy) the data is arranged in CSV format and each column is fixed. I will explain the inner-details in coming week(s)
@@ -40,11 +42,11 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 Questions
 
 1. How do you operate with dates in Python?
-
+Ans: Look for an external python library from internet.
 2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   
-
+Ans: Look for an external python library from internet.
 3. do we write set up and tear down function inside a class?
-
+Ans: Refer to the online examples on the net.
 4. 
 
 
