@@ -43,12 +43,12 @@ def file_downloader(url):
     if (url):
         print("URL to download: [", url, "]")
         res = requests.get(url, allow_redirects=True)
-        f = open("download.zip", 'wb').write(res.content)
-        # f = open(os.path.join(BASE_DIR,"download.zip"), 'wb').write(res.content)
+        # f = open("download.zip", 'wb').write(res.content)
+        f = open(os.path.join(BASE_DIR,"download.zip"), 'wb').write(res.content)
         # Make sure to change to the addresses below correctly for smooth running
         # the adresses here point to the zip file downloaded and to where it's extracted
-        print(BASE_DIR)
-        print("AAA [", os.path.join(BASE_DIR,"download.zip"), "]")
+        print("BASE_DIR: [", BASE_DIR, "]")
+        print("file [", os.path.join(BASE_DIR,"download.zip"), "]")
         with ZipFile(os.path.join(BASE_DIR,"download.zip"), "r") as unzip:
             unzip.extractall(path=BASE_DIR)
         if (os.path.exists(os.path.join(BASE_DIR,"download.zip"))):

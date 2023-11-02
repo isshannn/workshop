@@ -4,4 +4,4 @@ import os
 NSE_HOLIDAYS = []
 # base directory for downloaded bhav copies
 BASE_DIR = os.path.join(os.getcwd(),'bhav_copy')
-BASE_URL = "https://archives.nseindia.com/content/historical/EQUITIES"
+BASE_URL = "https://archives.nseindia.com/content/historical/EQUITIES/"
