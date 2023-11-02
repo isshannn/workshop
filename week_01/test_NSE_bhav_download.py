@@ -14,7 +14,10 @@ class TestFileUtils(unittest.TestCase):
         date_t_before = date(2023,2,23)
         date_t_after = date(2024,2,23)
         date_t_today = date.today()
+        date_t_holdiay = date(2023,1,26)
         date_Null= None
+        date_weekday_Sun = date(2023,10,29)
+        date_weekday_Sat = date(2023,10,28)
         #todays date
         result = NSE.verify_date(date_t_today)
         self.assertIsNone(result)
@@ -25,7 +28,17 @@ class TestFileUtils(unittest.TestCase):
         result = NSE.verify_date(date_t_after)
         self.assertIsNone(result)
         #NULL Input
-        result= NSE.verify_date(date_Null)
+        result = NSE.verify_date(date_Null)
+        self.assertIsNone(result)
+        #Holiday date input
+        result = NSE.verify_date(date_t_holdiay)
+        self.assertIsNone(result)
+        #Weekday date input
+        result1 = NSE.verify_date(date_weekday_Sat)
+        result2 = NSE.verify_date(date_weekday_Sun)
+        self.assertIsNone(result1)
+        self.assertIsNone(result2)
+
     
     def test_month(self):
         month_range = "4"
