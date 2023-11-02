@@ -52,4 +52,10 @@ Ans: Refer to the online examples on the net.
 
 4. 
 
-
+## Comments on code 
+1. [ ] Each method/function should have a documentation in the format as prescribed by Python documentation and best practices.
+2. [ ] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
+3. Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
+4. [ ] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
+5. [ ] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
+6. [ ] 
