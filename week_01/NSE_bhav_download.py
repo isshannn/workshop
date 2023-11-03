@@ -1,8 +1,9 @@
 import requests
 from zipfile import ZipFile
-from datetime import date
+from datetime import date,datetime
 import os
 from constants import BASE_DIR, NSE_HOLIDAYS, BASE_URL
+from urllib.parse import urlparse
 
 def check_day(argument):
     if(argument):
@@ -55,31 +56,31 @@ def check_year(argument):
     print("None value passed")
     return None    
 
-def file_downloader(url):
+def file_downloader(url,argument):
     if (url):
         print("URL to download: [", url, "]")
         res = requests.get(url, allow_redirects=True)
-        # f = open("download.zip", 'wb').write(res.content)
         # Note that the address is fetched automatically from constants.py
-        f = open(os.path.join(BASE_DIR,"download.zip"), 'wb').write(res.content)
+        f = open(os.path.join(BASE_DIR,argument), 'wb').write(res.content)
         # the adresses here point to the zip file downloaded and to where it's extracted
         print("BASE_DIR: [", BASE_DIR, "]")
-        print("file [", os.path.join(BASE_DIR,"download.zip"), "]")
-        with ZipFile(os.path.join(BASE_DIR,"download.zip"), "r") as unzip:
+        print("file [", os.path.join(BASE_DIR,argument), "]")
+        with ZipFile(os.path.join(BASE_DIR,argument), "r") as unzip:
             unzip.extractall(path=BASE_DIR)
-        if (os.path.exists(os.path.join(BASE_DIR,"download.zip"))):
-            os.remove(os.path.join(BASE_DIR,"download.zip"))
+        if (os.path.exists(os.path.join(BASE_DIR,argument))):
+            os.remove(os.path.join(BASE_DIR,argument))
         return True
     print("None Value passed")
     return None
 
 def file_check(argument):
     if(argument):
+        argument = BASE_DIR + argument
         if(os.path.exists(argument)):
-            print("File exists")
             return True
         else:
             return False    
+        
 
 def verify_date(argument):
     if(argument):
@@ -99,46 +100,69 @@ def verify_date(argument):
             return None
         #Checks for same date
         if (t_date == argument):
-            print("Work in progress, kindly wait")
-            return None
+            time_now = datetime.now()
+            if( check_time(time_now)):
+                print("Work in progress, kindly wait till 7:00pm / 19:00hrs")
+                exit(0)
+            else:
+                return argument
         #Checks for previous date
         if(t_date > argument):
             return argument
-    return None    
+    return None
 
-# print("Enter Date")
-# # dd = input()
-# dd = "29"
-# dd = check_day(dd)
-# if(dd == None):
-#     exit(0)
+def check_time(argument):
+    if(argument):
+        time_now = argument.strftime("%H")
+        time_now = int(time_now)
+        if (time_now < 16):
+            return True
+        else:
+            return False
 
-# print("Enter Month")
-# # mm = input()
-# mm = "10"
-# mm = check_month(mm)
-# if(mm == None):
-#     exit(0)
 
-# print("Enter Year")
+
+print("Enter Date")
+dd = input()
+# dd = "2"
+dd = check_day(dd)
+if(dd == None):
+    exit(0)
+
+print("Enter Month")
+mm = input()
+# mm = "11"
+mm = check_month(mm)
+if(mm == None):
+    exit(0)
+
+print("Enter Year")
 # yy = "2023"
-# # yy = input()
-# yy = check_year(yy)
-# if(yy == None):
-#     exit(0)
+yy = input()
+yy = check_year(yy)
+if(yy == None):
+    exit(0)
 
-# #stores the date input by the user
-# input_date = date(yy,mm,dd)
-# input_date = verify_date(input_date)
-# if(input_date == None):
-#     exit(0)
-# # creates URL based on the date
-# file_url = BASE_URL + input_date.strftime("%Y") + "/" + input_date.strftime("%b").upper() + "/cm" + input_date.strftime("%d") + input_date.strftime("%b").upper() + input_date.strftime("%Y") +"bhav.csv.zip"
-# print(file_url)
+#stores the date input by the user
+input_date = date(yy,mm,dd)
+input_date = verify_date(input_date)
+if(input_date == None):
+    exit(0)
+# creates URL based on the date
+file_url = BASE_URL + input_date.strftime("%Y") + "/" + input_date.strftime("%b").upper() + "/cm" + input_date.strftime("%d") + input_date.strftime("%b").upper() + input_date.strftime("%Y") +"bhav.csv.zip"
+result = urlparse(file_url)
+if(not (result.scheme and result.path)) :
+    print("URL Error")
+    exit(0)
 
-# #Checks if preexisting file exists  
-# file_path = "/cm" + input_date.strftime("%d") + input_date.strftime("%b").upper() + input_date.strftime("%Y") +"bhav.csv"
-# if(file_check(file_path)):
-#     print("file exists")
-#     exit(0)
-# file_downloader(file_url)
+#Checks if preexisting file exists  
+file_path = "/cm" + input_date.strftime("%d") + input_date.strftime("%b").upper() + input_date.strftime("%Y") +"bhav.csv"
+if(file_check(file_path)):
+    print("File exists")
+    exit(0)
+file_path = file_path.lstrip("/")
+file_path = file_path.rstrip(".csv")
+#Add a character, since rstrip messes with the file name Bhav
+file_path = file_path + "v.zip"
+print(file_path)
+file_downloader(file_url,file_path)

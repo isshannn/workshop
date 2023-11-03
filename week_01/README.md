@@ -23,17 +23,17 @@ Each file URL consists of the following pattern
     - YYYY - Year part of the file name, for example, 2023
 
 ## Validations
-[ ] Ensure that you only save the CSV files and not the ZIP files.
-[ ] Ensure that the date entered by the user is correct
+[X] Ensure that you only save the CSV files and not the ZIP files.
+[X] Ensure that the date entered by the user is correct
     - Only valid date format is accepts. And the date format should be DD/MMM/YYYY
-[ ] Ensure that you do not fetch data for weekends
+[X] Ensure that you do not fetch data for weekends
     - Bhavcopy files are available only for weekdays.
-[ ] Ensure that you do not fetch data for NSE holidays
+[X] Ensure that you do not fetch data for NSE holidays
     - NSE holidays are market close days and bhavcopy is not available
     - [Holiday List](https://groww.in/p/nse-holidays)
-[ ] Ensure that you do not fetch files that are already existing
+[X] Ensure that you do not fetch files that are already existing
     - There is no point re-downloading a file that already exists
-[ ] Ensure that you do not attempt to download the same-day bhavcopy before 7 PM.
+[X] Ensure that you do not attempt to download the same-day bhavcopy before 7 PM.
     - Bhav copy is made available after the end of the day; typiccally after 6.30 PM.
 
 ### Bhavcopy file format
@@ -54,8 +54,8 @@ Ans: Refer to the online examples on the net.
 
 ## Comments on code 
 1. [ ] Each method/function should have a documentation in the format as prescribed by Python documentation and best practices.
-2. [ ] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
-3. Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
-4. [ ] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
-5. [ ] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
+2. [X] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
+3. [ ] Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
+4. [X] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
+5. [X] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
 6. [ ] 
