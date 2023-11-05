@@ -39,7 +39,31 @@ Each file URL consists of the following pattern
 ### Bhavcopy file format
 Within each file (or bhavcopy) the data is arranged in CSV format and each column is fixed. I will explain the inner-details in coming week(s)
 
-Questions
+## Comments on code 
+1. [X] Each method/function should have a documentation in the format as prescribed by Python documentation and best practices.
+2. [] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
+    - urllib.parse was implemented but currently commented for future usuage
+3. [X] Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
+4. [X] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
+5. [X] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
+6. [ ] 
+
+## Parking Lot
+[ ] Print betterment - Method name followed by variable name followed by variable
+    - need to explore a open source logger
+[X] Doc Strings - write documentations for each methods 
+
+[ ] remove unit test warning for file open
+
+[ ] invalidate date input of year < 2018
+
+[] Download files for a given month
+    - unittest not implemented
+
+[] Download files for a given year
+    - unittest not implemented
+
+## Questions
 
 1. How do you operate with dates in Python?
 Ans: Look for an external python library from internet.
@@ -50,12 +74,12 @@ Ans: Look for an external python library from internet.
 3. do we write set up and tear down function inside a class?
 Ans: Refer to the online examples on the net.
 
-4. 
+4. try except
 
-## Comments on code 
-1. [ ] Each method/function should have a documentation in the format as prescribed by Python documentation and best practices.
-2. [X] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
-3. [ ] Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
-4. [X] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
-5. [X] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
-6. [ ] 
+5. NSE monthly file available?
+
+6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?
+Ans: You need to handcode the dates and months; There is no automated way
+
+7. On that note are datetime objects mutable?
+Ans: read documnetation.

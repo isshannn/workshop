@@ -1,26 +1,56 @@
 import unittest
 import os
 import NSE_bhav_download as NSE
-from datetime import date
+from datetime import date,datetime
 
 class TestFileUtils(unittest.TestCase):
+    def test_compose_url_for_month(self):
+        test_month = "2"
+        test_year = "2023"
+        test_month_invalid1 = "13"
+        test_month_invalid2 = "0"
+        test_month_invalid3 = "-22"
+        test_month_null = None
+        test_year_null = None
+        result = NSE.download_file_for_month(test_month,test_year)
+        self.assertTrue(result)
+        result = NSE.download_file_for_month(test_month_invalid1,test_year)
+        self.assertIsNone(result)
+        result = NSE.download_file_for_month(test_month_invalid2,test_year)
+        self.assertIsNone(result)
+        result = NSE.download_file_for_month(test_month_invalid3,test_year)
+        self.assertIsNone(result)
+        result = NSE.download_file_for_month(test_month_null,test_year)
+        self.assertIsNone(result)
+        result = NSE.download_file_for_month(test_month_null,test_year)
+        self.assertIsNone(result)
+        result = NSE.download_file_for_month(test_month,test_year_null)
+        self.assertIsNotNone(result)   
+
+
+    def test_compose_url(self):
+        test_date = date(2023,10,26)
+        result = NSE.compose_url(test_date)
+        expected_output = "https://archives.nseindia.com/content/historical/EQUITIES/2023/OCT/cm26OCT2023bhav.csv.zip"
+        self.assertEqual(result, expected_output)
+
     def test_file_downloader(self):
         NSE_VALID_URL = "https://archives.nseindia.com/content/historical/EQUITIES/2023/OCT/cm27OCT2023bhav.csv.zip"
-        self.assertIsNone(NSE.file_downloader(None))
-        resp = NSE.file_downloader(NSE_VALID_URL)
+        self.assertIsNone(NSE.download_file(None,None))
+        resp = NSE.download_file(NSE_VALID_URL,"cm27OCT2023bhav")
         self.assertTrue(os.path.isfile("bhav_copy/cm27OCT2023bhav.csv"))
 
-    def test_date(self):
+    def test_verify_date(self):
         date_t_before = date(2023,2,23)
         date_t_after = date(2024,2,23)
-        date_t_today = date.today()
+        date_t_working_day = date(2023,11,3)
         date_t_holdiay = date(2023,1,26)
         date_Null= None
         date_weekday_Sun = date(2023,10,29)
         date_weekday_Sat = date(2023,10,28)
         #todays date
-        result = NSE.verify_date(date_t_today)
-        self.assertIsNone(result)
+        result = NSE.verify_date(date_t_working_day)
+        self.assertIsNotNone(result)
         #past date
         result = NSE.verify_date(date_t_before)
         self.assertIsNotNone(result)
