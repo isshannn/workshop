@@ -57,7 +57,7 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 
 [ ] invalidate date input of year < 2018
 
-[] Download files for a given month
+[X] Download files for a given month
     - unittest not implemented
 
 [] Download files for a given year

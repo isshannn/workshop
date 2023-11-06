@@ -318,38 +318,40 @@ def download_file_for_month(month, year):
             if(test_month > 12 or test_month < 1):
                 print("compose_url_for_month: Month number out of range")
                 return None
+             # if year is None then defealt year = current year
+            if(year == None):
+                today_year = date.today()
+                today_year = today_year.strftime("%Y")
+                year = today_year
+                print("compose_url_for_month: None year passed. Default year is: ", year)
+            # if year is passed then it cant be in future
+            today_year = date.today()
+            today_year = today_year.strftime("%Y")
+            today_year = int(today_year)
+            year_test = int(year)
+            if (year_test > today_year):
+                print("compose_url_for_month: Data for future year cant be fetched")
+                return None
             print("compose_url_for_month: Month is string and in decimal and is within range")
+            # for everyday of the month compose the url
+            month = int(month)
+            year = int(year)
+            for d in range(1,31):
+                current_date = date(year,month,d)
+                current_date = verify_date(current_date)
+                if ( current_date != None):
+                    try:
+                        url_date = compose_url(current_date)
+                        url_path = compose_file_path(current_date)
+                        download_file(url_date,url_path)
+                    except:
+                        continue    
             return True
     except Exception as E:
         print("compose_url_for_month: ", E)
         return None
-    # if year is None then defealt year = current year
-    if(year == None):
-        today_year = date.today()
-        today_year = today_year.strftime("%Y")
-        year = today_year
-        print("compose_url_for_month: None year passed. Default year is: ", year)
-    # if year is passed then it cant be in future
-    today_year = date.today()
-    today_year = today_year.strftime("%Y")
-    today_year = int(today_year)
-    year_test = int(year)
-    if (year_test > today_year):
-        print("compose_url_for_month: Data for future year cant be fetched")
-        return None
-    # for everyday of the month compose the url
-    month = int(month)
-    year = int(year)
-    for d in range(1,31):
-        current_date = date(year,month,d)
-        current_date = verify_date(current_date)
-        if ( current_date != None):
-            try:
-                url_date = compose_url(current_date)
-                url_path = compose_file_path(current_date)
-                download_file(url_date,url_path)
-            except:
-                continue    
+   
+    
         # print(current_date)
         #return current_date
 
