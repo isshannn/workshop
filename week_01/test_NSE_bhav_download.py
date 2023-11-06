@@ -4,6 +4,15 @@ import NSE_bhav_download as NSE
 from datetime import date,datetime
 
 class TestFileUtils(unittest.TestCase):
+    def test_compose_url_for_year(self):
+        test_year = "2022"
+        # No need check for future year since compose_url_for_year inherits test_year
+        test_year_null = None
+        result = NSE.download_file_for_year(test_year)
+        self.assertTrue(result)
+        result = NSE.download_file_for_year(test_year_null)
+        self.assertFalse(result)
+
     def test_compose_url_for_month(self):
         test_month = "2"
         test_year = "2023"

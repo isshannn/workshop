@@ -23,17 +23,17 @@ Each file URL consists of the following pattern
     - YYYY - Year part of the file name, for example, 2023
 
 ## Validations
-[X] Ensure that you only save the CSV files and not the ZIP files.
-[X] Ensure that the date entered by the user is correct
+1. [X] Ensure that you only save the CSV files and not the ZIP files.
+2. [X] Ensure that the date entered by the user is correct
     - Only valid date format is accepts. And the date format should be DD/MMM/YYYY
-[X] Ensure that you do not fetch data for weekends
+3. [X] Ensure that you do not fetch data for weekends
     - Bhavcopy files are available only for weekdays.
-[X] Ensure that you do not fetch data for NSE holidays
+4. [X] Ensure that you do not fetch data for NSE holidays
     - NSE holidays are market close days and bhavcopy is not available
     - [Holiday List](https://groww.in/p/nse-holidays)
-[X] Ensure that you do not fetch files that are already existing
+5. [X] Ensure that you do not fetch files that are already existing
     - There is no point re-downloading a file that already exists
-[X] Ensure that you do not attempt to download the same-day bhavcopy before 7 PM.
+6. [X] Ensure that you do not attempt to download the same-day bhavcopy before 7 PM.
     - Bhav copy is made available after the end of the day; typiccally after 6.30 PM.
 
 ### Bhavcopy file format
@@ -45,41 +45,40 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
     - urllib.parse was implemented but currently commented for future usuage
 3. [X] Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
 4. [X] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
-5. [X] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads!
-6. [ ] 
+5. [X] Currently, file_check is not used (before downloading the file). Please use this method before actual download to avoid duplicate downloads! 
 
 ## Parking Lot
-[ ] Print betterment - Method name followed by variable name followed by variable
+1. [ ] Print betterment - Method name followed by variable name followed by variable
     - need to explore a open source logger
-[X] Doc Strings - write documentations for each methods 
+2. [X] Doc Strings - write documentations for each methods 
 
-[ ] remove unit test warning for file open
+3. [ ] remove unit test warning for file open
 
-[ ] invalidate date input of year < 2018
+4. [X] invalidate date input of year < 2018
 
-[X] Download files for a given month
+5. [X] Download files for a given month
     - unittest not implemented
 
-[] Download files for a given year
+6. [X] Download files for a given year
     - unittest not implemented
 
 ## Questions
 
-1. How do you operate with dates in Python?
+1. How do you operate with dates in Python?\n
 Ans: Look for an external python library from internet.
 
-2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   
+2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   \n
 Ans: Look for an external python library from internet.
 
-3. do we write set up and tear down function inside a class?
+3. do we write set up and tear down function inside a class?\n
 Ans: Refer to the online examples on the net.
 
 4. try except
 
 5. NSE monthly file available?
 
-6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?
+6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?\n
 Ans: You need to handcode the dates and months; There is no automated way
 
-7. On that note are datetime objects mutable?
+7. On that note are datetime objects mutable?\n
 Ans: read documnetation.

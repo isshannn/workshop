@@ -104,6 +104,7 @@ def check_year(argument):
         None if the argument is not a Decimal number \n
         None if argument == None \n
         None if argument entered is in future. for example giving argument as 2024 when the current date is 20/10/2023; \n
+        None if argument < 2018
         int if argument is a year in past or present
     """
     if(argument):
@@ -117,6 +118,9 @@ def check_year(argument):
             #Checks if the input year is ongoing or not.
             if (y > td):
                 print("Enter ongoing or past year")
+                return None
+            if (y < 2018):
+                print("Cannot fetch data for years less than 2018")
                 return None
             return y
         print("Enter year in whole numbers, eg. 2011")
@@ -298,11 +302,11 @@ def download_file_for_month(month, year):
     Returns:
     --------
 
-    None if month is invalid decimal number , if year is not a decimal number or is in future 
+    None:  if month is invalid decimal number , if year is not a decimal number or is in future 
 
-    None if month or year or both are null/None
+    None: if month or year or both are null/None
 
-    TBD if valid inputs  
+    Ture: if files are downloaded  
 
     """
     # Month cant be null
@@ -354,6 +358,36 @@ def download_file_for_month(month, year):
     
         # print(current_date)
         #return current_date
+
+def download_file_for_year(year):
+    """Downloads files for an entire year
+        This function take year(for ex: 2022) as input and downloads files for valid days for an entire year specified
+
+    Parameters:
+    -----------
+
+    year : str
+        The year for which the files are to be downloaded
+
+    Returns:
+    --------
+
+    False: If year is null
+    True : if files are downloaded
+   
+    """
+    #Check if year input is in decimal
+    #Check if year is not of future
+    year = check_year(year)
+    if(year != None):
+        #If valid year then fetch files
+        year = str(year)
+        for x in range(1,13):
+            month = str(x) 
+            download_file_for_month(month,year)
+        return True
+    else:
+        return False        
 
 def process_input():
     print("Do you want to fetch files for a single date or for a range?")
