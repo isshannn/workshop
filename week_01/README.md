@@ -41,7 +41,7 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 
 ## Comments on code 
 1. [X] Each method/function should have a documentation in the format as prescribed by Python documentation and best practices.
-2. [] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
+2. [ ] In the file_downloader function, perform basic sanity of the correctness of the URl before calling the requests.get method. You can use an open-source library to perform that validations. (Do not handcode the validations of the url.)
     - urllib.parse was implemented but currently commented for future usuage
 3. [X] Incorporate exception handling by using `try-except` blocks in the file_downloader function. That's always a good idea to write defensive code!
 4. [X] Cuurently every file is downloaded as `download.zip`. Please give each downloaded file a unique name; for example, you can use the bhav file name as-it-is.
@@ -50,6 +50,7 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 ## Parking Lot
 1. [ ] Print betterment - Method name followed by variable name followed by variable
     - need to explore a open source logger
+    
 2. [X] Doc Strings - write documentations for each methods 
 
 3. [ ] remove unit test warning for file open
@@ -61,6 +62,8 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 
 6. [X] Download files for a given year
     - unittest not implemented
+
+7. [ ] In unittest of download_file_for_year the download takes considerable amount of time on 10AUG2022 before proceeding further, handle the exception efficiently
 
 ## Questions
 
