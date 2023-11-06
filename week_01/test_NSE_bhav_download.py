@@ -145,9 +145,11 @@ class TestFileUtils(unittest.TestCase):
         result= NSE.check_year(y_string)
         self.assertIsNone(result)
 
+        """
         def test_file(self):
-            result = NSE.file_check("cm27OCT2023bhav.csv")
+            result = NSE.check_file("cm27OCT2023bhav.csv")
             self.assertTrue(result)
+        """
 
 if __name__ == "__main__":
     unittest.main()
