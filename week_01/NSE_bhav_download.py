@@ -212,12 +212,12 @@ def download_file(url,argument):
     Returns:
     --------
     None or True
-        None if the file download fails else returns None if download fails.
+        None if the file download fails else returns True.
     """
     if (url):
         print("URL to download: [", url, "]")
         try:
-            res = requests.get(url, allow_redirects=True)
+            res = requests.get(url, allow_redirects=True,timeout=5.00)
         except Exception as e:
             print("There is an error in services as follows: ", e)
             return None

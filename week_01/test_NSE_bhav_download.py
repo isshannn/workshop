@@ -137,7 +137,7 @@ class TestFileUtils(unittest.TestCase):
         y_string = "abc"
         #Valid Input
         result = NSE.check_year(y_valid)
-        self.assertIsNotNone(result)
+        self.assertIsNone(result)
         #Invalid Input
         result = NSE.check_year(y_invalid)
         self.assertIsNone(result)

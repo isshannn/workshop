@@ -63,25 +63,25 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 6. [X] Download files for a given year
     - unittest not implemented
 
-7. [ ] In unittest of download_file_for_year the download takes considerable amount of time on 10AUG2022 before proceeding further, handle the exception efficiently
+7. [X] In unittest of download_file_for_year the download takes considerable amount of time on 09AUG2022 before proceeding further, handle the exception efficiently
 
 ## Questions
 
-1. How do you operate with dates in Python?\n
-Ans: Look for an external python library from internet.
+1. How do you operate with dates in Python?
+    --Look for an external python library from internet.
 
-2. After opening the file, how do you unzip it, and in case of error handling how do you show it?   \n
-Ans: Look for an external python library from internet.
+2. After opening the file, how do you unzip it, and in case of error handling how do you show it?
+    --Look for an external python library from internet.
 
-3. do we write set up and tear down function inside a class?\n
-Ans: Refer to the online examples on the net.
+3. do we write set up and tear down function inside a class?
+    --Refer to the online examples on the net.
 
 4. try except
 
 5. NSE monthly file available?
 
-6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?\n
-Ans: You need to handcode the dates and months; There is no automated way
+6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?
+    --You need to handcode the dates and months; There is no automated way
 
 7. On that note are datetime objects mutable?\n
-Ans: read documnetation.
+    --read documnetation.
