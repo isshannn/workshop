@@ -68,20 +68,20 @@ Within each file (or bhavcopy) the data is arranged in CSV format and each colum
 ## Questions
 
 1. How do you operate with dates in Python?
-    --Look for an external python library from internet.
+    -Look for an external python library from internet.
 
 2. After opening the file, how do you unzip it, and in case of error handling how do you show it?
-    --Look for an external python library from internet.
+    -Look for an external python library from internet.
 
 3. do we write set up and tear down function inside a class?
-    --Refer to the online examples on the net.
+    -Refer to the online examples on the net.
 
 4. try except
 
 5. NSE monthly file available?
 
 6. Instead of using loops for extracting individual dates, is there any method to check valid dates and months?
-    --You need to handcode the dates and months; There is no automated way
+    -You need to handcode the dates and months; There is no automated way
 
 7. On that note are datetime objects mutable?\n
-    --read documnetation.
+    -read documnetation.

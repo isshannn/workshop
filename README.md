@@ -14,13 +14,11 @@ The objective of this week is to as following
 # Programming Challenge
 
 - Example of bhav copy data sorting
-Assume that you have bhav copy for a year (this could be YTD or month or a given quarter like Q1 of
-2023 or H1 of 2023.
+Assume that you have bhav copy for a year (this could be YTD or month or a given quarter like Q1 of 2023 or H1 of 2023.
     - Collect the data for the given symbol for the given time period.
     - Sort this data using the sorting algorithm you have developed.
     - Show the result.
-        -- The result could be "What was the data on which the stock gained max. % compared to the
-        previous trading session/date?"
+        -- The result could be "What was the data on which the stock gained max. % compared to the previous trading session/date?"
         -- Show the entire object in the output.
 
 ## Backgraound of files under consideration
@@ -51,6 +49,10 @@ NSE publishes daily bhavcopy of the stocks (also called securities) exchanged (w
 ## Parking Lot
 
 ## Questions
+
+ 1. [ ] Q. For refernce please terms FY, Q1 , H1 . 
+          ---
+ 2. [ ]          
 
 ## Tech Debt Items
 
