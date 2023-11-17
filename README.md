@@ -1,14 +1,14 @@
 # Objective
 The objective of this week is to as following
-    - Complete the spill-over from the past week (on priority - as described in the `Tech Debt`
+    - [X] Complete the spill-over from the past week (on priority - as described in the `Tech Debt`
       section towards the end of this document.)
     - Learn sorting with the following objective
         -- Basic Bubble sort using simple array like data
         -- Advanced bubble sort using objects
-            --- Download bhav copies for a fixed period like a month or a year (or you can use existing downloaded ones)
-            --- Take a company name (as user input)
-            --- Find the data for the provided time period for the given company
-            --- Compose this data as an array of Python objects
+            --- [X]Download bhav copies for a fixed period like a month or a year (or you can use existing downloaded ones)
+            --- [X]Take a company name (as user input)
+            --- [X]Find the data for the provided time period for the given company
+            --- [X]Compose this data as an array of Python objects
             --- Sort this data based on a key like 'High' or 'Low' field of the data
 
 # Programming Challenge
@@ -38,8 +38,7 @@ NSE publishes daily bhavcopy of the stocks (also called securities) exchanged (w
   "total_traded_quantity": Volumes or the quantities of the stock traded.
   "total_traded_value": It's the sum of volume traded and price at which the trade took place.
   "timestamp": Represents the trading date.
-  "total_trades": Total number of trades that took place. Remeber that 1 trade can involve more than
-  1 stock.
+  "total_trades": Total number of trades that took place. Remeber that 1 trade can involve more than 1 stock
   "isin": Unique identification of a stock. This field is not significant now.
 
 ## Validations
@@ -47,6 +46,8 @@ NSE publishes daily bhavcopy of the stocks (also called securities) exchanged (w
 ## Comments on code 
 
 ## Parking Lot
+
+[ ] 1. Solid Principle of OOP
 
 ## Questions
 
