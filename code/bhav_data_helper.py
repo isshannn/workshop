@@ -1,10 +1,12 @@
+import calendar
 from datetime import date
 import constants as nse_constants
 import nse_bhav_download as nse_downloader
 import csv
 import os
 
-def make_stock_data_dict(dummy_list = list):
+# def make_stock_data_dict(dummy_list = list):
+def make_stock_data_dict(dummy_list = [str]):
     """This function creates a single instance of dictionary for the list passed as the argument and appends it to a globally declared list
     
     Parameters:
@@ -73,7 +75,10 @@ def read_daily_csv(csv_date = date, company_name = str):
     # TODO: Both date and company_name is mandatory. Check!
 
     print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
-    zip_file_name = nse_downloader.compose_file_path(csv_date).lstrip("/")
+    zip_file_name_org = nse_downloader.compose_file_path(csv_date)
+    zip_file_name = ""
+    if zip_file_name_org:
+         zip_file_name = zip_file_name_org.lstrip("/")
     print("read_single_csv: Zip File name: [ ", zip_file_name," ]")
     # Remove the trailing ".zip"
     tmp_file_name = zip_file_name.rstrip(".zip")
@@ -87,16 +92,16 @@ def read_daily_csv(csv_date = date, company_name = str):
         url = nse_downloader.compose_url(csv_date)
         nse_downloader.download_file(url,os.path.join(os.path.curdir, "bhav_copy"))
     print("read_single_csv: File path for CSV: [ ", csv_file_path," ]")
+
     company_name_found = False
-    
-    list_of_dict = []
     with open(csv_file_path,'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         for line in csv_reader:
             if line[0].upper() == company_name.upper():
                 # print(line)
                 company_name_found = True
-                list_of_dict.append(make_stock_data_dict(line))
+                # list_of_dict.append(make_stock_data_dict(line))
+                return make_stock_data_dict(line)
                 # return line
             # else:
                 # print("read_single_csv: File not found for ",csv_date)
@@ -106,7 +111,7 @@ def read_daily_csv(csv_date = date, company_name = str):
     if not company_name_found:
         print("read_single_csv: The data you are looking for is not found!")
         return None
-    return list_of_dict
+    return None
 
 # Read data for a month
 def read_monthly_csv(month_number = str,year_number = str,company_name = str):
@@ -136,7 +141,10 @@ def read_monthly_csv(month_number = str,year_number = str,company_name = str):
         print("read_month_csv: Invalid month_number/year_number provided to the function")
         return None
     # monthly_list =[]  #Not needed because global stock_data_list is populated for every date
-    for day_of_month in range(1,32):
+    yy = int(year_number)
+    mon = int(month_number)
+    num_days_in_month = calendar.monthrange(yy, mon)[1]
+    for day_of_month in range(1,num_days_in_month+1):
         try:
             year_number = int(year_number)
             month_number = int(month_number)
