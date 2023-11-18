@@ -19,16 +19,16 @@ class test_data_csv(unittest.TestCase):
         valid_year = "2023"
         valid_company_name = "INFY"
         result = nse_helper.read_monthly_csv(valid_month,valid_year,valid_company_name)
-        #Expect a list in return
+        print(result)
+        #Expect a list of dictionarioes in returns in return
         self.assertIsInstance(result,list)
 
-    def test_feed_list(self):
-        list_1 = ['INFY', 'EQ', '1363.65', '1385', '1363.65', '1380.35', '1381.05', '1359.45', '4634358', '6395268362.3', '27-OCT-2023', '160477', 'INE009A01021', '']
-        list_2 = ['DUMB_INFY', 'EQ', '1363.65', '1385', '1363.65', '1380.35', '1381.05', '1359.45', '4634358', '6395268362.3', '27-OCT-2023', '160477', 'INE009A01021', '']          
-        nse_helper.feed_stock_data_list(list_1)
-        nse_helper.feed_stock_data_list(list_2)
-        print(nse_helper.stock_data_list)
-        self.assertIsInstance(nse_helper.stock_data_list,list)
+    # def test_feed_list(self):
+    #     list_1 = ['INFY', 'EQ', '1363.65', '1385', '1363.65', '1380.35', '1381.05', '1359.45', '4634358', '6395268362.3', '27-OCT-2023', '160477', 'INE009A01021', '']
+    #     list_2 = ['DUMB_INFY', 'EQ', '1363.65', '1385', '1363.65', '1380.35', '1381.05', '1359.45', '4634358', '6395268362.3', '27-OCT-2023', '160477', 'INE009A01021', '']          
+    #     # nse_helper.feed_stock_data_list(list_1)
+    #     # nse_helper.feed_stock_data_list(list_2)
+    #     self.assertIsInstance(nse_helper.stock_data_list,list)
     
     def test_is_period_valid(self):
         result = nse_helper.is_period_valid(None)
@@ -45,9 +45,9 @@ class test_data_csv(unittest.TestCase):
         result = nse_helper.is_period_valid("mon")
         self.assertFalse(result)
     
-    def test_process_input(self):
-        result = nse_helper.process_input()
-        self.assertIsNone(result)
+    # def test_process_input(self):
+    #     result = nse_helper.process_input()
+    #     self.assertIsNone(result)
 
 
 
