@@ -7,9 +7,11 @@ class test_data_csv(unittest.TestCase):
         valid_date = date(2023,10,27)
         valid_company_name = "INFY"
         result = nse_helper.read_daily_csv(valid_date, valid_company_name)
+        # result = result[0]
         # There are other ways to validate the o/p
         # but right now only company_name is checked in return
-        self.assertEqual(result[0], valid_company_name)
+        print("test_read_daily_csv: result = ", result)
+        self.assertEqual(result[0]["SYMBOL"], valid_company_name)
         invalid_company_name = "SAMVAS"
         result = nse_helper.read_daily_csv(valid_date, invalid_company_name)
         self.assertIsNone(result)

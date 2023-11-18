@@ -14,12 +14,12 @@ def make_stock_data_dict(dummy_list = list):
 
     Returns:
     --------
-    stock_data_list : list
+    stock_data: dict
         which contaings CSV data in a list of dictionaries format
     """
     #Creating a global list which stores list of the dictionaries containning data of a single row of a csv file
     #The idea is to create a list of csv_files represented in form of dictionaries
-    stock_data_list = []
+    # stock_data_list = []
     #A dictionary which stores data fetched from the csv_file
     stock_data = {
         "SYMBOL" : None ,
@@ -49,9 +49,9 @@ def make_stock_data_dict(dummy_list = list):
     stock_data["TIMESTAMP"] = dummy_list[10]
     stock_data["TOTALTRADES"] = dummy_list[11]
     stock_data["ISIN"] = dummy_list[12]
-    stock_data_list.append(stock_data)
+    # stock_data_list.append(stock_data)
     # print("feed _stock_data_list: stock_data_list as of now: ", stock_data_list)
-    return stock_data_list
+    return stock_data
 
 def read_daily_csv(csv_date = date, company_name = str):
     """Helper Function which reads a single bhav_CSV file for the specified Date
