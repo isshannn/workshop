@@ -2,6 +2,7 @@ import unittest
 import bhav_data_helper as nse_helper
 import constants as nse_constants
 from datetime import date
+
 class test_data_csv(unittest.TestCase):
     def test_read_daily_csv(self):
         valid_date = date(2023,10,27)
@@ -11,7 +12,7 @@ class test_data_csv(unittest.TestCase):
         # There are other ways to validate the o/p
         # but right now only company_name is checked in return
         print("test_read_daily_csv: result = ", result)
-        self.assertEqual(result[0]["SYMBOL"], valid_company_name)
+        self.assertEqual(result.get("SYMBOL"), valid_company_name)
         invalid_company_name = "SAMVAS"
         result = nse_helper.read_daily_csv(valid_date, invalid_company_name)
         self.assertIsNone(result)
@@ -51,7 +52,11 @@ class test_data_csv(unittest.TestCase):
     #     result = nse_helper.process_input()
     #     self.assertIsNone(result)
 
-
+    def test_sort_list(self):
+        dummy_list = [{{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1358.6'},{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1348.75'},{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1353.85'}]
+        valid_key = "OPEN"
+        result = nse_helper.sort_list(dummy_list,valid_key)
+        print("\n \n test_sort_list \n \n",result)
 
 if __name__ == "__main__":
     unittest.main()

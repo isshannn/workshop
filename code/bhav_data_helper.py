@@ -260,3 +260,26 @@ def process_input():
                 read_monthly_csv(x,input_year)    
     return None
     
+def sort_list(stock_list = list,key = str):
+    """A helper function which sorts a list of dictionaries wrt a key
+
+    Parameters:
+    -----------
+    stock_list : list
+        A list of simmilar dictionaries which contains data of multiple rows of bhav_csv file
+    
+    key : str
+        Is a key in the above mentioned dictionaries which is persent inside the list.
+    
+    Returns:
+    --------
+    Sorted list of dictionary according to the Key passed
+    """
+    list_len = len(stock_list)
+    for x in range(list_len):
+        for y in range(0,list_len-x-1):
+            if (stock_list[y][key] > stock_list[y+1][key]):
+                temp = stock_list[x+1]
+                stock_list[x+1] = stock_list[x]
+                stock_list[x] = temp
+    return stock_list
