@@ -53,7 +53,7 @@ class test_data_csv(unittest.TestCase):
     #     self.assertIsNone(result)
 
     def test_sort_list(self):
-        dummy_list = [{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1358.6','CLOSE': '1425.95'},{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1348.75', 'CLOSE': '1334.6'},{'SYMBOL': 'INFY', 'SERIES': 'EQ', 'OPEN': '1353.85', 'CLOSE': '1355.7'}]
+        dummy_list = nse_helper.read_monthly_csv("10","2023","INFY")
         valid_key = "CLOSE"
         result = nse_helper.sort_list(dummy_list,valid_key)
         print("\n \n test_sort_list \n \n",result)

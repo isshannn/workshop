@@ -279,7 +279,7 @@ def sort_list(stock_list = list,key = str):
     for x in range(list_len):
         for y in range(0,list_len-x-1):
             if (stock_list[y][key] > stock_list[y+1][key]):
-                temp = stock_list[x+1]
-                stock_list[x+1] = stock_list[x]
-                stock_list[x] = temp
+                temp = stock_list[y+1]
+                stock_list[y+1] = stock_list[y]
+                stock_list[y] = temp
     return stock_list
