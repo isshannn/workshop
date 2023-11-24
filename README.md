@@ -15,9 +15,9 @@ The objective of this week is to as following
 
 - Example of bhav copy data sorting
 Assume that you have bhav copy for a year (this could be YTD or month or a given quarter like Q1 of 2023 or H1 of 2023.
-    - Collect the data for the given symbol for the given time period.
-    - Sort this data using the sorting algorithm you have developed.
-    - Show the result.
+    - [X] Collect the data for the given symbol for the given time period.
+    - [X] Sort this data using the sorting algorithm you have developed.
+    - [X] Show the result.
         -- The result could be "What was the data on which the stock gained max. % compared to the previous trading session/date?"
         -- Show the entire object in the output.
 
@@ -58,6 +58,6 @@ NSE publishes daily bhavcopy of the stocks (also called securities) exchanged (w
 ## Tech Debt Items
 
 These are the spillovers from the past week that need to be addressed in the current week.
-    - A download url should be tried for maximum 30 seconds
+    -[X] A download url should be tried for maximum 30 seconds
     - 
 
