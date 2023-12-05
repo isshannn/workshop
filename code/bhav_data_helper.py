@@ -74,24 +74,24 @@ def read_daily_csv(csv_date = date, company_name = str):
     """
     # TODO: Both date and company_name is mandatory. Check!
 
-    print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
+    # print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
     zip_file_name_org = nse_downloader.compose_file_path(csv_date)
     zip_file_name = ""
     if zip_file_name_org:
          zip_file_name = zip_file_name_org.lstrip("/")
-    print("read_single_csv: Zip File name: [ ", zip_file_name," ]")
+    # print("read_daily_csv: Zip File name: [ ", zip_file_name," ]")
     # Remove the trailing ".zip"
     tmp_file_name = zip_file_name.rstrip(".zip")
     csv_file_name = tmp_file_name + ".csv"
-    print("read_single_csv: csv_file_name: [ ", csv_file_name," ]")
+    # print("read_daily_csv: csv_file_name: [ ", csv_file_name," ]")
     # The bhav copies are in bhav_copy folder of current directory
     csv_file_path = os.path.join(nse_constants.BASE_DIR, csv_file_name)
-    print("read_single_csv: CSV File path: [ ", csv_file_path," ]")
+    # print("read_daily_csv: CSV File path: [ ", csv_file_path," ]")
     if(not nse_downloader.check_file(csv_file_name)):
-        print("read_single_csv: The required CSV file not found . . . Downloading!")
+        # print("read_daily_csv: The required CSV file not found . . . Downloading!")
         url = nse_downloader.compose_url(csv_date)
         nse_downloader.download_file(url,os.path.join(os.path.curdir, "bhav_copy"))
-    print("read_single_csv: File path for CSV: [ ", csv_file_path," ]")
+    # print("read_daily_csv: File path for CSV: [ ", csv_file_path," ]")
 
     company_name_found = False
     with open(csv_file_path,'r') as csv_file:
@@ -150,6 +150,8 @@ def read_monthly_csv(month_number = str,year_number = str,company_name = str):
             month_number = int(month_number)
             input_date = date(year_number,month_number,day_of_month)
             input_date = nse_downloader.verify_date(input_date)
+            if (input_date == False):
+                break
             if (input_date == None):
               continue
             else:
@@ -273,7 +275,7 @@ def sort_list(stock_list = list,key = str):
     
     Returns:
     --------
-    Sorted list of dictionary according to the Key passed
+    Sorted list of dictionary(in ascending order) according to the Key passed
     """
     list_len = len(stock_list)
     for x in range(list_len):
