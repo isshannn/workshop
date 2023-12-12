@@ -141,28 +141,31 @@ def verify_date(sample_date):
     --------
     None or datetime.date
         None if the date is invalid else return the argument
+        False if the date is in future, or the csv_data for the current date isnt made yet
     """
     if (sample_date):
         t_date =  date.today()
         #Checks for Holidays
         for i in range(0 , len(NSE_HOLIDAYS)):
+            if (NSE_HOLIDAYS[i] > sample_date):
+                break
             if ( sample_date == NSE_HOLIDAYS[i] ):
-                print("Holiday, Market closed")
+                print("Holiday, Market closed on ", sample_date)
                 return None                
         #Checks for Weekend
         if(sample_date.strftime("%w") == "6" or sample_date.strftime("%w") == "0"):
-            print("Weekend, Market Closed")
+            print("Weekend, Market Closed on ", sample_date)
             return None
         #Checks for future date
         if (t_date < sample_date):
-            print("Not available yet for this date")
-            return None
+            print("Kindly wait until the market resumes at 9:00 hrs IST on ", sample_date)
+            return False
         #Checks for same date
         if (t_date == sample_date):
             time_now = datetime.now()
             if( check_time(time_now)):
                 print("Work in progress, kindly wait till 7:00pm / 19:00hrs")
-                exit(0)
+                return False
             else:
                 return sample_date
         #Checks for previous date
@@ -349,6 +352,8 @@ def download_file_for_month(month, year):
                 try:
                     current_date = date(year,month,d)
                     current_date = verify_date(current_date)
+                    if (current_date == False):
+                        exit(0)
                     if ( current_date != None):
                         url_date = compose_url(current_date)
                         url_path = compose_file_path(current_date)
