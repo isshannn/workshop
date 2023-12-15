@@ -4,17 +4,17 @@ import constants as nse_constants
 from datetime import date
 
 class test_data_csv(unittest.TestCase):
-    def test_read_daily_csv(self):
+    def test_read_csv_for_company(self):
         valid_date = date(2023,10,27)
         valid_company_name = "INFY"
-        result = nse_helper.read_daily_csv(valid_date, valid_company_name)
+        result = nse_helper.read_csv_for_company(valid_date, valid_company_name)
         # result = result[0]
         # There are other ways to validate the o/p
         # but right now only company_name is checked in return
         print("test_read_daily_csv: result = ", result)
         self.assertEqual(result.get("SYMBOL"), valid_company_name)
         invalid_company_name = "SAMVAS"
-        result = nse_helper.read_daily_csv(valid_date, invalid_company_name)
+        result = nse_helper.read_csv_for_company(valid_date, invalid_company_name)
         self.assertIsNone(result)
     
     def test_read_monthly_csv(self):

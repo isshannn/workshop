@@ -128,7 +128,7 @@ def check_year(argument):
     print("None value passed")
     return None    
 
-def verify_date(sample_date):
+def verify_date(sample_date: date):
     """Checks validity of a date
         This function takes a date and verifies wether the date is valid or not(weekends, NSE holidays are invalid). Also, for the current date time shouldn't be before 7:00pm/19:00hrs for a valid date
 
@@ -140,8 +140,9 @@ def verify_date(sample_date):
     Returns: 
     --------
     None or datetime.date
-        None if the date is invalid else return the argument
-        False if the date is in future, or the csv_data for the current date isnt made yet
+        None if the date is invalid, or falls on a listed holiday, or on a weekend \n
+        False if the date is in future, or the csv_data for the current date isnt made yet \n
+        The input date if the input is a valid date
     """
     if (sample_date):
         t_date =  date.today()
@@ -208,7 +209,7 @@ def download_file(url,file_path):
     Returns:
     --------
     None or True
-        None if the file download fails else returns True.
+        None if the file download fails/File exists; else returns True.
     """
     if (url):
         if check_file(file_path):

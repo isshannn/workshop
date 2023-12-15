@@ -2,7 +2,7 @@
 - To get an hands-on experience about Pandas library
 - Ideas about pandas DataFrame methods
 - Usage of pandas DF manipulations methods.
-# Programming Challenge
+
 ## Definitions
 - What is a week?
     - Monday to Friday is considered as a week.
@@ -44,9 +44,19 @@
 5. [ ] This analytics cannot be performed for the current/running week since you
    need data for the entire week and current week may not have ended.
 
+## Parking Lot
+1. [X] Use verify_date for date verfication
+2. [X] Use datetime.date for strftime(%b) for weekday verifcation
+    - didnt need to use it since we are using isoweekday()
+3. [X] Make a new function which returns the nearest trading date
+4. [X] Check dates for month change while searching for nearest trading date
+    - date.isoweekday Monday is 1 Sunday is 7 
+5. [ ] Return an entire set of week
+6. [X] Use Pandas DataFrame in bhave_data_helper
+7. [ ] Fetch csv_files for an entire week and save them in a SINGLE place.
+
 ## Comments on code 
 
-## Parking Lot
 
 ## Questions
 

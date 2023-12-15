@@ -2,6 +2,7 @@ import calendar
 from datetime import date
 import constants as nse_constants
 import nse_bhav_download as nse_downloader
+import pandas as pd
 import csv
 import os
 
@@ -55,8 +56,46 @@ def make_stock_data_dict(dummy_list = [str]):
     # print("feed _stock_data_list: stock_data_list as of now: ", stock_data_list)
     return stock_data
 
-def read_daily_csv(csv_date = date, company_name = str):
-    """Helper Function which reads a single bhav_CSV file for the specified Date
+def return_entire_csv(csv_date : date):
+    """Helper Function which reads a single bhav_CSV file for the specified Date and returns the entire csv_file of the specified date in pandas.DataFrame format
+    
+    Parameters:
+    -----------
+
+    csv_date : datetime.date
+        A date for which the CSV file has to opened (or downloaded and opened)
+    
+    Returns:
+    --------
+     frame : pandas.DataFrame()
+        A csv file converted into a pandas.DataFrame object.
+
+    """
+     # print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
+    zip_file_name_org = nse_downloader.compose_file_path(csv_date)
+    zip_file_name = ""
+    if zip_file_name_org:
+         zip_file_name = zip_file_name_org.lstrip("/")
+    # print("read_daily_csv: Zip File name: [ ", zip_file_name," ]")
+    # Remove the trailing ".zip"
+    tmp_file_name = zip_file_name.rstrip(".zip")
+    csv_file_name = tmp_file_name + ".csv"
+    # print("read_daily_csv: csv_file_name: [ ", csv_file_name," ]")
+    # The bhav copies are in bhav_copy folder of current directory
+    csv_file_path = os.path.join(nse_constants.BASE_DIR, csv_file_name)
+    # print("read_daily_csv: CSV File path: [ ", csv_file_path," ]")
+    if(not nse_downloader.check_file(csv_file_name)):
+        # print("read_daily_csv: The required CSV file not found . . . Downloading!")
+        url = nse_downloader.compose_url(csv_date)
+        nse_downloader.download_file(url,os.path.join(os.path.curdir, "bhav_copy"))
+    # print("read_daily_csv: File path for CSV: [ ", csv_file_path," ]")
+
+    with open(csv_file_path,'r') as csv_file:
+       frame = pd.read_csv(csv_file)
+    return frame
+
+def read_csv_for_company(csv_date = date, company_name = str):
+    """Helper Function which reads a single bhav_CSV file for the specified Date for a specified company
     
     Parameters:
     -----------
@@ -155,7 +194,7 @@ def read_monthly_csv(month_number = str,year_number = str,company_name = str):
             if (input_date == None):
               continue
             else:
-                stock_data_list.append(read_daily_csv(input_date,company_name)) 
+                stock_data_list.append(read_csv_for_company(input_date,company_name)) 
                 # if ( daily_list != None):
                 #     monthly_list.append(daily_list)
         except:
