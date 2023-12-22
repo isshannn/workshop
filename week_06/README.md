@@ -11,17 +11,17 @@
       then we should consider the Monday that is in the past week.
     - A user will provide a date and based on the date input the following needs
       to be accomplished.
-    1.[X] Proceed to next step if it is a valid trading date.Verify if it is a
+    1. [X] Proceed to next step if it is a valid trading date.Verify if it is a
        valid trading date or not. If it is not a valid trading date (either
        weekend or holiday of NSE), find the nearest trading date of the past.
-    2.[X] Once the lastest trading date is inferred, find the beginning of the
+    2. [X] Once the lastest trading date is inferred, find the beginning of the
        trading week. Let's call this date (which is the beginning of the
        trading week as X)
     3. [X] For the week starting on X, gather all the bhav copies for the entire
        week. (Remember that max days in a week is 5 and min is 0 which is least
        likely because an entire week cannot be a holiday)
     4. [X]Merge the bhav copies for the entire week.
-    5. Filter the data inside the bhav copies that are ONLY in 'EQ' series. Extract
+    5. [X]Filter the data inside the bhav copies that are ONLY in 'EQ' series. Extract
        data pertaining to each unique symbol into it's own file. For example,
        data related to INFY will need to extracted into INFY.csv file.
     6. Now, for each symbol calculate gain or loss % as the case may be. Idea is
@@ -54,6 +54,16 @@
 5. [X] Return an entire set of week
 6. [X] Use Pandas DataFrame in bhave_data_helper
 7. [X] Fetch csv_files for an entire week and save them in a SINGLE place.
+8. [X] Sort out EQ series from the merged csv DataFrame
+9. [X] Insert individual row into new sorted DataFrame
+10. [X] Make csv file for each symbol for in the sorted DataFrame
+11. [X] test_weekly_csv :: in test_nearest_day :: coming Sunday input
+        - Modify code to calculate the coming Sunday in the future date 
+        - Expect False as return
+12. [X] Make a function to manipulate dataframe for a comapany's weekly bhav_data
+13. [ ] Error Handling for each function in weekly_csv.
+14. [ ] file.groupby[OPEN],groupby[Close]
+15. [ ] First open and last close.
 
 ## Comments on code 
 

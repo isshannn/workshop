@@ -67,7 +67,7 @@ def return_entire_csv(csv_date : date):
     
     Returns:
     --------
-     frame : pandas.DataFrame()
+     dataframe : pandas.DataFrame()
         A csv file converted into a pandas.DataFrame object.
 
     """
@@ -91,8 +91,8 @@ def return_entire_csv(csv_date : date):
     # print("read_daily_csv: File path for CSV: [ ", csv_file_path," ]")
 
     with open(csv_file_path,'r') as csv_file:
-       frame = pd.read_csv(csv_file)
-    return frame
+       dataframe = pd.read_csv(csv_file)
+    return dataframe
 
 def read_csv_for_company(csv_date = date, company_name = str):
     """Helper Function which reads a single bhav_CSV file for the specified Date for a specified company

@@ -128,7 +128,7 @@ def check_year(argument):
     print("None value passed")
     return None    
 
-def verify_date(sample_date: date):
+def verify_date(input_date: date):
     """Checks validity of a date
         This function takes a date and verifies wether the date is valid or not(weekends, NSE holidays are invalid). Also, for the current date time shouldn't be before 7:00pm/19:00hrs for a valid date
 
@@ -144,34 +144,34 @@ def verify_date(sample_date: date):
         False if the date is in future, or the csv_data for the current date isnt made yet \n
         The input date if the input is a valid date
     """
-    if (sample_date):
-        t_date =  date.today()
+    if input_date:
+        today_date =  date.today()
+        #Checks for future date
+        if (today_date < input_date):
+            print("verify_date :: Kindly wait until the market resumes at 9:00 hrs IST on ", input_date)
+            return False
         #Checks for Holidays
         for i in range(0 , len(NSE_HOLIDAYS)):
-            if (NSE_HOLIDAYS[i] > sample_date):
+            if (NSE_HOLIDAYS[i] > input_date):
                 break
-            if ( sample_date == NSE_HOLIDAYS[i] ):
-                print("Holiday, Market closed on ", sample_date)
+            if ( input_date == NSE_HOLIDAYS[i] ):
+                print("verify_date :: Holiday, Market closed on ", input_date)
                 return None                
         #Checks for Weekend
-        if(sample_date.strftime("%w") == "6" or sample_date.strftime("%w") == "0"):
-            print("Weekend, Market Closed on ", sample_date)
+        if(input_date.strftime("%w") == "6" or input_date.strftime("%w") == "0"):
+            print("verify_date :: Weekend, Market Closed on ", input_date)
             return None
-        #Checks for future date
-        if (t_date < sample_date):
-            print("Kindly wait until the market resumes at 9:00 hrs IST on ", sample_date)
-            return False
         #Checks for same date
-        if (t_date == sample_date):
+        if (today_date == input_date):
             time_now = datetime.now()
             if( check_time(time_now)):
-                print("Work in progress, kindly wait till 7:00pm / 19:00hrs")
+                print("verify_date :: Work in progress, kindly wait till 7:00pm / 19:00hrs")
                 return False
             else:
-                return sample_date
+                return input_date
         #Checks for previous date
-        if(t_date > sample_date):
-            return sample_date
+        if(today_date > input_date):
+            return input_date
     return None
 
 def compose_file_path(sample_date):
@@ -215,11 +215,11 @@ def download_file(url,file_path):
         if check_file(file_path):
             print("File Exists")
             return None
-        print("URL to download: [", url, "]")
+        print("download_file :: URL to download= [", url, "]")
         try:
             res = requests.get(url, allow_redirects=True,timeout=5.00)
         except Exception as e:
-            print("There is an error in services as follows: ", e)
+            print("download_file :: There is an error in services as follows: ", e)
             return None
         finally:
             # print("Server down. Please try again later")
@@ -233,10 +233,10 @@ def download_file(url,file_path):
         with ZipFile(os.path.join(BASE_DIR,file_path), "r") as unzip:
             unzip.extractall(path=BASE_DIR)
         if (os.path.exists(os.path.join(BASE_DIR,file_path))):
-            print("download_url: Removing path: ",os.path.join(BASE_DIR,file_path))
+            print("download_file: Removing path= ",os.path.join(BASE_DIR,file_path))
             os.remove(os.path.join(BASE_DIR,file_path))
         return True
-    print("None Value passed")
+    print("download_url :: None Value passed")
     return None
 
 def check_file(csv_file_name = str):

@@ -1,8 +1,9 @@
 from datetime import date, timedelta
 import pandas as pd
+import numpy as np
 import nse_bhav_download as nse_date_checker
 import bhav_data_helper as nse_csv_composer
-import constants
+import os
 
 def nearest_trading_day(input_date : date):
     """Function returns the date which falls on Monday of the input date's week. If the input_date is of an incomplete on going week, returns False.
@@ -46,14 +47,103 @@ def compose_weekly_csv(start_date : date):
         Is a date which falls on Monday.
     Returns:
     --------
-    
+    file : pandas.DataFrame
+        A pandas.DataFrame object which contains merged contents of each bhav_copy of the day in the duration of a week.
+
+    None
+        If start date falls on an incomplete week (A week is considered to be from Mon-Fri)    
     """
     td_1 = timedelta(days=1)
     weekday_status = start_date.isoweekday()
+    if(start_date + (5*td_1) >= date.today()):
+        print("compose_weekly_csv :: CANT FETCH DATA FOR ONGOING WEEK")
+        return None
     file = pd.DataFrame()
     while(weekday_status < 6):
         file = file._append(nse_csv_composer.return_entire_csv(start_date), ignore_index = True)
-        print(start_date.strftime("%a"))
+        # print(start_date.strftime("%a"))
         start_date = start_date + td_1
         weekday_status = start_date.isoweekday()
+    del file["Unnamed: 13"]
+    counter = 0
+    for value in file["SERIES"]:
+        if(value != "EQ"):
+            # pass
+            # Push the entire row here.
+            # sorted_file = sorted_file._append(file.iloc[counter], ignore_index = True)
+            file = file.drop(counter)
+        counter = counter + 1
+    # playground_file(file)
     return file
+
+def compose_company_file(file : pd.DataFrame, company_name: str):
+    """Helper function which constructs a DataFrame for storing a Company's weekly bhav_data
+    Parameters:
+    -----------
+    file : pandas.DataFrame
+        A Dataframe which contains bhav_data of all listed companies for a duration of an entire week
+
+    company_name : str
+        A str object representing the SYMBOL of the listed company in bhav_data
+
+    Returns:
+    --------
+    company_file : pandas.DataFrame
+        A DataFrame which contains the bhav_data of the input company for the duration of a week    
+    """
+    if(type(file) == None):
+        print("compose_company_file :: File not found")
+        return None
+    company_file = file.loc[file.SYMBOL == company_name]
+    # This is to suppress warning about SettingWithCopyWarning
+    # For more information and bug fixes go to: 
+    # https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+    with pd.option_context('mode.chained_assignment',None):
+        company_file["GAIN_LOSS"] = ( ( company_file["CLOSE"] - company_file["OPEN"] ) / company_file["OPEN"] ) * 100
+    return company_file
+
+
+def bhav_to_csv(file : pd.DataFrame):
+    """Helper function which creates csv_file which stores merged daily bhav_data, of each individual listed company, in the duration of a single week.
+    
+    Parameters:
+    -----------
+    file : pandas.DataFrame
+        A DataFrame which contains daily bhav_data of each listed company, in a duration of one week
+    
+    Returns:
+    ---------
+    None
+        This Function creates X.csv files [X being the SYMBOL of the comapny listed] in the folder company_bhav_copy inside the bhav_copy folder, make sure to create a folder beforehand in order for smooth functiong of code
+    
+    """
+    # Stores each listed company symbol in a series
+    companies = file.SYMBOL.unique()
+    for x in companies:
+        data_frame = compose_company_file(file,x)
+        csv_file_name = x + ".csv"
+        try:
+            data_frame.to_csv(path_or_buf=os.path.join(os.getcwd(),'bhav_copy/company_bhav_copy/')+csv_file_name, mode='w')
+        except Exception as E:
+            print("bhav_to_csv :: the following Error occured during creation: ", E)
+            continue
+    return None
+    
+def view_Gain_loss_all_weekly():
+    """A function which returns a DataFrame containing SYMBOL(unique),FirstOPEN,LastClose,Gain_Loss for the entire week
+    """
+    file = compose_weekly_csv(date(2023,12,11))
+    bhav_to_csv(file)
+    Gain_Loss_Data_Frame = pd.DataFrame(columns = ["SYMBOL","FIRST_OPEN","LAST_CLOSE","GAIN_LOSS"])
+    Gain_Loss_Data_Frame["SYMBOL"] = file.SYMBOL.unique()
+    First_Open_list = []
+    Last_Close_list = []
+    for x in Gain_Loss_Data_Frame.SYMBOL:
+        company_file = pd.read_csv(os.path.join(os.getcwd(),'bhav_copy/company_bhav_copy/')+x+".csv")
+        company_file_length = company_file.SYMBOL.count() - 1
+        First_Open_list.append(company_file.loc[0].OPEN)
+        Last_Close_list.append(company_file.loc[company_file_length].CLOSE)
+    Gain_Loss_Data_Frame["FIRST_OPEN"] = First_Open_list
+    Gain_Loss_Data_Frame["LAST_CLOSE"] = Last_Close_list
+    Gain_Loss_Data_Frame["GAIN_LOSS"] = ( (Gain_Loss_Data_Frame["LAST_CLOSE"] - Gain_Loss_Data_Frame["FIRST_OPEN"]) / Gain_Loss_Data_Frame["FIRST_OPEN"] ) * 100
+    print(Gain_Loss_Data_Frame.groupby("GAIN_LOSS").max())
