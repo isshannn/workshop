@@ -62,8 +62,11 @@
         - Expect False as return
 12. [X] Make a function to manipulate dataframe for a comapany's weekly bhav_data
 13. [ ] Error Handling for each function in weekly_csv.
-14. [ ] file.groupby[OPEN],groupby[Close]
-15. [ ] First open and last close.
+14. [X] Create a new DataFrame with columns
+        - Symbol (All listed companies)
+        - First_Open
+        - Last_Close
+        - Gain/Loss = [ (First_Open - Last_Close) / First_Open ] * 100
 
 ## Comments on code 
 
