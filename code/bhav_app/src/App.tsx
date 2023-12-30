@@ -1,35 +1,41 @@
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
-import INFY from "./INFY.json"
-import {INFY_dataType} from "./INFY"
+import INFY from "./INFY.json";
+import { INFY_dataType } from "./INFY";
 
-function App(){
-  const data_arr = INFY as INFY_dataType[]
+function App() {
+  const json_arr = INFY as INFY_dataType[];
+  const length_json_arr = json_arr.length;
+  const keys_json = Object.keys(INFY[0]);
+  const length_keys_json = keys_json.length;
 
-  const column_data: GridColDef[] = [
-    {field: "SYMBOL", width: 150},
-    {field: "SERIES", width: 150},
-    {field: "OPEN", width: 150},
-    {field: "HIGH", width: 150},
-    {field: "LOW", width: 150},
-    {field: "CLOSE", width: 150},
-    {field: "LAST", width: 150},
-    {field: "PREVCLOSE", width: 150},
-    {field: "TOTTRDQTY", width: 150},
-    {field: "TOTTRDVAL", width: 150},
-    {field: "TIMESTAMP", width: 150}, 
-    {field: "TOTALTRADES", width: 150},
-    {field: "ISIN", width: 150},
-    {field: "GAIN_LOSS", width: 150},
-  ]
-  const row_data: GridRowsProp = [
-    { id: data_arr[0].TIMESTAMP, SYMBOL: data_arr[0].SYMBOL, SERIES: data_arr[0].SERIES, OPEN: data_arr[0].OPEN, HIGH: data_arr[0].HIGH, LOW:data_arr[0].LOW, CLOSE: data_arr[0].CLOSE, LAST: data_arr[0].LAST, PREVCLOSE: data_arr[0].PREVCLOSE, TOTTRDQTY: data_arr[0].TOTTRDQTY, TOTTRDVAL: data_arr[0].TOTTRDVAL, TIMESTAMP: data_arr[0].TIMESTAMP, TOTALTRADES: data_arr[0].TOTALTRADES, ISIN: data_arr[0].ISIN, GAIN_LOSS: data_arr[0].GAIN_LOSS},
-    { id: data_arr[1].TIMESTAMP, SYMBOL: data_arr[1].SYMBOL, SERIES: data_arr[1].SERIES, OPEN: data_arr[1].OPEN, HIGH: data_arr[1].HIGH, LOW:data_arr[1].LOW, CLOSE: data_arr[1].CLOSE, LAST: data_arr[1].LAST, PREVCLOSE: data_arr[1].PREVCLOSE, TOTTRDQTY: data_arr[1].TOTTRDQTY, TOTTRDVAL: data_arr[1].TOTTRDVAL, TIMESTAMP: data_arr[1].TIMESTAMP, TOTALTRADES: data_arr[1].TOTALTRADES, ISIN: data_arr[1].ISIN, GAIN_LOSS: data_arr[1].GAIN_LOSS},
-    { id: data_arr[2].TIMESTAMP, SYMBOL: data_arr[2].SYMBOL, SERIES: data_arr[2].SERIES, OPEN: data_arr[2].OPEN, HIGH: data_arr[2].HIGH, LOW:data_arr[2].LOW, CLOSE: data_arr[2].CLOSE, LAST: data_arr[2].LAST, PREVCLOSE: data_arr[2].PREVCLOSE, TOTTRDQTY: data_arr[2].TOTTRDQTY, TOTTRDVAL: data_arr[2].TOTTRDVAL, TIMESTAMP: data_arr[2].TIMESTAMP, TOTALTRADES: data_arr[2].TOTALTRADES, ISIN: data_arr[2].ISIN, GAIN_LOSS: data_arr[2].GAIN_LOSS},
-    { id: data_arr[3].TIMESTAMP, SYMBOL: data_arr[3].SYMBOL, SERIES: data_arr[3].SERIES, OPEN: data_arr[3].OPEN, HIGH: data_arr[3].HIGH, LOW:data_arr[3].LOW, CLOSE: data_arr[3].CLOSE, LAST: data_arr[3].LAST, PREVCLOSE: data_arr[3].PREVCLOSE, TOTTRDQTY: data_arr[3].TOTTRDQTY, TOTTRDVAL: data_arr[3].TOTTRDVAL, TIMESTAMP: data_arr[3].TIMESTAMP, TOTALTRADES: data_arr[3].TOTALTRADES, ISIN: data_arr[3].ISIN, GAIN_LOSS: data_arr[3].GAIN_LOSS},
-    { id: data_arr[4].TIMESTAMP, SYMBOL: data_arr[4].SYMBOL, SERIES: data_arr[4].SERIES, OPEN: data_arr[4].OPEN, HIGH: data_arr[4].HIGH, LOW:data_arr[4].LOW, CLOSE: data_arr[4].CLOSE, LAST: data_arr[4].LAST, PREVCLOSE: data_arr[4].PREVCLOSE, TOTTRDQTY: data_arr[4].TOTTRDQTY, TOTTRDVAL: data_arr[4].TOTTRDVAL, TIMESTAMP: data_arr[4].TIMESTAMP, TOTALTRADES: data_arr[4].TOTALTRADES, ISIN: data_arr[4].ISIN, GAIN_LOSS: data_arr[4].GAIN_LOSS},
-  ]
-  return <div>
-    <DataGrid rows={row_data} columns={column_data}/>
-  </div>
+  let column_data: GridColDef[] = [];
+  for (let i = 0; i < length_keys_json; i++) {
+    column_data = column_data.concat([{ field: keys_json[i], width: 150 }]);
+  }
+  let row_data: GridRowsProp = [];
+  for (let i = 0; i < length_json_arr; i++) {
+    row_data = row_data.concat({
+      id: json_arr[i].TIMESTAMP,
+      SYMBOL: json_arr[i].SYMBOL,
+      SERIES: json_arr[i].SERIES,
+      OPEN: json_arr[i].OPEN,
+      HIGH: json_arr[i].HIGH,
+      LOW: json_arr[i].LOW,
+      CLOSE: json_arr[i].CLOSE,
+      LAST: json_arr[i].LAST,
+      PREVCLOSE: json_arr[i].PREVCLOSE,
+      TOTTRDQTY: json_arr[i].TOTTRDQTY,
+      TOTTRDVAL: json_arr[i].TOTTRDVAL,
+      TIMESTAMP: json_arr[i].TIMESTAMP,
+      TOTALTRADES: json_arr[i].TOTALTRADES,
+      ISIN: json_arr[i].ISIN,
+      GAIN_LOSS: json_arr[i].GAIN_LOSS,
+    });
+  }
+  return (
+    <div>
+      <DataGrid rows={row_data} columns={column_data} />
+    </div>
+  );
 }
 export default App;
