@@ -53,17 +53,25 @@ def compose_weekly_csv(start_date : date):
     None
         If start date falls on an incomplete week (A week is considered to be from Mon-Fri)    
     """
+    start_date = nearest_trading_day(start_date)
     td_1 = timedelta(days=1)
     weekday_status = start_date.isoweekday()
     if(start_date + (5*td_1) >= date.today()):
         print("compose_weekly_csv :: CANT FETCH DATA FOR ONGOING WEEK")
         return None
     file = pd.DataFrame()
+    temp_date = start_date
     while(weekday_status < 6):
-        file = file._append(nse_csv_composer.return_entire_csv(start_date), ignore_index = True)
-        # print(start_date.strftime("%a"))
-        start_date = start_date + td_1
-        weekday_status = start_date.isoweekday()
+        temp_date = nse_date_checker.verify_date(temp_date)
+        if (temp_date != None):
+                file = file._append(nse_csv_composer.return_entire_csv(temp_date), ignore_index = True)
+                temp_date = temp_date + td_1
+                start_date = start_date + td_1
+                weekday_status = temp_date.isoweekday()
+        else:
+            temp_date = start_date
+            temp_date = temp_date + td_1
+
     del file["Unnamed: 13"]
     counter = 0
     for value in file["SERIES"]:
@@ -129,10 +137,30 @@ def bhav_to_csv(file : pd.DataFrame):
             continue
     return None
     
-def view_Gain_loss_all_weekly():
+def view_Gain_loss_all_weekly(start_date : date):
     """A function which returns a DataFrame containing SYMBOL(unique),FirstOPEN,LastClose,Gain_Loss for the entire week
+    
+    Parameters:
+    -----------
+        start_date: datetime.date
+            The input with respect to which end user want to fetch weekly bhav_data
+    
+    Returns:
+    --------
+        Gain_Loss_Data_Frame.to_json() 
+            A json file containing weekly bhav_data
+        
+        False 
+            If file is not composed for the current week.
+
     """
-    file = compose_weekly_csv(date(2023,12,11))
+    start_date = nearest_trading_day(start_date)
+    if(type(start_date) != date):
+        print("INVALID INPUT")
+        return None
+    file = compose_weekly_csv(start_date)
+    if (file == None):
+        return False
     bhav_to_csv(file)
     Gain_Loss_Data_Frame = pd.DataFrame(columns = ["SYMBOL","FIRST_OPEN","LAST_CLOSE","GAIN_LOSS"])
     Gain_Loss_Data_Frame["SYMBOL"] = file.SYMBOL.unique()
@@ -146,4 +174,5 @@ def view_Gain_loss_all_weekly():
     Gain_Loss_Data_Frame["FIRST_OPEN"] = First_Open_list
     Gain_Loss_Data_Frame["LAST_CLOSE"] = Last_Close_list
     Gain_Loss_Data_Frame["GAIN_LOSS"] = ( (Gain_Loss_Data_Frame["LAST_CLOSE"] - Gain_Loss_Data_Frame["FIRST_OPEN"]) / Gain_Loss_Data_Frame["FIRST_OPEN"] ) * 100
-    print(Gain_Loss_Data_Frame.groupby("GAIN_LOSS").max())
+    print(Gain_Loss_Data_Frame)
+    return Gain_Loss_Data_Frame.to_json()

@@ -55,8 +55,11 @@ class test_data_csv(unittest.TestCase):
     def test_sort_list(self):
         dummy_list = nse_helper.read_monthly_csv("10","2023","INFY")
         valid_key = "CLOSE"
+        print("\n \n test_sort_list :: input\n \n",dummy_list)
+        print("\n \n test_sort_list :: valid_key\n \n",valid_key)
+        
         result = nse_helper.sort_list(dummy_list,valid_key)
-        print("\n \n test_sort_list \n \n",result)
+        print("\n \n test_sort_list :: result \n \n",result)
 
 if __name__ == "__main__":
     unittest.main()

@@ -81,6 +81,11 @@ class test_weekly_data_csv(unittest.TestCase):
         print("test_bhav_to_csv :: Function Input \n",input_file)
         weekly_csv.bhav_to_csv(input_file)
     
+    def test_view_gain_loss_weekly(self):
+        input_date = date.today()
+        print("test_view_gain_loss_weekly :: input : ", input_date)
+        result = weekly_csv.view_Gain_loss_all_weekly(input_date)
+        print("test_view_gain_loss_weekly :: result : \n", result)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,6 +1,6 @@
 import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import INFY from "./INFY.json";
-import { INFY_dataType } from "./INFY";
+import { INFY_dataType } from "./INFY.tsx";
 
 function App() {
   const json_arr = INFY as INFY_dataType[];
@@ -10,7 +10,7 @@ function App() {
 
   let column_data: GridColDef[] = [];
   for (let i = 0; i < length_keys_json; i++) {
-    column_data = column_data.concat([{ field: keys_json[i], width: 150 }]);
+    column_data = column_data.concat([{ field: keys_json[i], width: 100 }]);
   }
   let row_data: GridRowsProp = [];
   for (let i = 0; i < length_json_arr; i++) {

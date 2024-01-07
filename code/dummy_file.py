@@ -27,7 +27,7 @@ print("Using set: \n a =", a, " b = ",b)
 
 # Using xor operator? To be explored
 
-# Using arry sway
+# Using arry swap
 a = 100; b =200
 arr = [a,b]
 arr.reverse()

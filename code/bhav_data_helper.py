@@ -256,51 +256,6 @@ def is_period_valid(period):
     print("is_period_valid: None value passed")
     return False
 
-def process_input():
-    print("Enter financial Period: ")
-    period = input()
-    period = period.upper()
-    if (is_period_valid(period)):
-        print("Enter the financial year")
-        input_year = input()
-        input_year = nse_downloader.check_year(input_year)
-        if (input_year == None):
-            return False
-        if period == "Q1":
-            for x in range(4,7):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-        if period == "Q2":
-            for x in range(7,10):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-        if period == "Q3":
-            for x in range(10,13):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-        if period == "Q4":
-            for x in range(1,4):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-        if period == "H1":
-            for x in range(4,10):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-        if period == "H2":
-            for x in range(10,13):
-                #read_monthly_csv has expected problems with date input check.
-                x = str(x)
-                read_monthly_csv(x,input_year)
-            for x in range(1,4):
-                x = str(x)
-                read_monthly_csv(x,input_year)    
-    return None
-    
 def sort_list(stock_list = list,key = str):
     """A helper function which sorts a list of dictionaries wrt a key
 
