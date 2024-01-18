@@ -18,7 +18,7 @@ def make_stock_data_dict(dummy_list = [str]):
     Returns:
     --------
     stock_data: dict
-        which contaings CSV data in a list of dictionaries format
+        which containg CSV data in a list of dictionaries format
     """
     #Creating a global list which stores list of the dictionaries containning data of a single row of a csv file
     #The idea is to create a list of csv_files represented in form of dictionaries
@@ -56,8 +56,8 @@ def make_stock_data_dict(dummy_list = [str]):
     # print("feed _stock_data_list: stock_data_list as of now: ", stock_data_list)
     return stock_data
 
-def return_entire_csv(csv_date : date):
-    """Helper Function which reads a single bhav_CSV file for the specified Date and returns the entire csv_file of the specified date in pandas.DataFrame format
+def return_single_day_csv(csv_date : date):
+    """Helper Function which reads a single bhav_CSV file for a specified Date and returns the entire csv_file of that date in pandas.DataFrame format
     
     Parameters:
     -----------
@@ -153,7 +153,7 @@ def read_csv_for_company(csv_date = date, company_name = str):
     return None
 
 # Read data for a month
-def read_monthly_csv(month_number = str,year_number = str,company_name = str):
+def read_monthly_csv_for_company(month_number = str,year_number = str,company_name = str):
     """Function to fetch bhav_csv_data of a company for a single month
 
     Parameters:
@@ -201,7 +201,7 @@ def read_monthly_csv(month_number = str,year_number = str,company_name = str):
             continue        
     return stock_data_list
 
-def read_yearly_csv(year_number = str, company_name = str):
+def read_yearly_csv_for_company(year_number = str, company_name = str):
     """Helper Function to fetch bhav_csv_data of a company for a single year
 
     Parameters:
@@ -223,7 +223,7 @@ def read_yearly_csv(year_number = str, company_name = str):
     for m in range(1,13):
         m = str(m)
         try:
-            montly_list = read_monthly_csv(m,year_number,company_name)
+            montly_list = read_monthly_csv_for_company(m,year_number,company_name)
             yearly_list.append(montly_list)
         except:
             continue

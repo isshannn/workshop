@@ -6,3 +6,5 @@ NSE_HOLIDAYS = [date(2022,8,9),date(2023,1,26),date(2023,3,7),date(2023,3,30),da
 BASE_DIR = os.path.join(os.getcwd(),'bhav_copy/')
 BASE_URL = "https://archives.nseindia.com/content/historical/EQUITIES/"
 valid_periods = ["Q1", "Q2", "Q3", "Q4","H1","H2"]
+# https://wesmckinney.com/book/accessing-data#io_format_json
+

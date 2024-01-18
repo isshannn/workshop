@@ -20,6 +20,8 @@ def nearest_trading_day(input_date : date):
     """
     current_date = date.today()
     date_status = nse_date_checker.verify_date(input_date)
+    if (type(date_status) != date):
+        return False
     td_1 = timedelta(days=1)
 
     # Considering Week is from (Sun-Sat) if the input is ongoing Sat,i.e the last day of week returns Monday of the same on-going week
@@ -40,20 +42,23 @@ def nearest_trading_day(input_date : date):
         return False
 
 def compose_weekly_csv(start_date : date):
-    """This function returns a group of csv files for the working days of the week wrt the start date, which must be a MONDAY
+    """This function returns a group of csv files for the working days of the week
     Parameters:
     -----------
-    start_date : date
-        Is a date which falls on Monday.
+    start_date : datetime.date
+        Input date which is later scanned to the nearest Monday 
     Returns:
     --------
     file : pandas.DataFrame
         A pandas.DataFrame object which contains merged contents of each bhav_copy of the day in the duration of a week.
 
     None
-        If start date falls on an incomplete week (A week is considered to be from Mon-Fri)    
+        If start date falls on an ongoing/future week (A week is considered to be from Mon-Fri)    
     """
     start_date = nearest_trading_day(start_date)
+    if(start_date == False):
+        print("compose_weekly_csv :: CANT FETCH DATA FOR FUTURE DATE")
+        return None
     td_1 = timedelta(days=1)
     weekday_status = start_date.isoweekday()
     if(start_date + (5*td_1) >= date.today()):
@@ -64,7 +69,7 @@ def compose_weekly_csv(start_date : date):
     while(weekday_status < 6):
         temp_date = nse_date_checker.verify_date(temp_date)
         if (temp_date != None):
-                file = file._append(nse_csv_composer.return_entire_csv(temp_date), ignore_index = True)
+                file = file._append(nse_csv_composer.return_single_day_csv(temp_date), ignore_index = True)
                 temp_date = temp_date + td_1
                 start_date = start_date + td_1
                 weekday_status = temp_date.isoweekday()
@@ -112,12 +117,12 @@ def compose_company_file(file : pd.DataFrame, company_name: str):
 
 
 def bhav_to_csv(file : pd.DataFrame):
-    """Helper function which creates csv_file which stores merged daily bhav_data, of each individual listed company, in the duration of a single week.
+    """Helper function which creates csv_file for each listed company. The argument to this funcion is a DataFrame which contains merged records of bhav_copies of a single trading week.
     
     Parameters:
     -----------
     file : pandas.DataFrame
-        A DataFrame which contains daily bhav_data of each listed company, in a duration of one week
+        A DataFrame which contains daily bhav_data of each listed company, for a duration of one week
     
     Returns:
     ---------
@@ -159,8 +164,9 @@ def view_Gain_loss_all_weekly(start_date : date):
         print("INVALID INPUT")
         return None
     file = compose_weekly_csv(start_date)
-    if (file == None):
+    if (type(file) == None):
         return False
+    # creates csv file for each listed company for the input week.
     bhav_to_csv(file)
     Gain_Loss_Data_Frame = pd.DataFrame(columns = ["SYMBOL","FIRST_OPEN","LAST_CLOSE","GAIN_LOSS"])
     Gain_Loss_Data_Frame["SYMBOL"] = file.SYMBOL.unique()

@@ -21,7 +21,7 @@ class test_data_csv(unittest.TestCase):
         valid_month = "7"
         valid_year = "2023"
         valid_company_name = "INFY"
-        result = nse_helper.read_monthly_csv(valid_month,valid_year,valid_company_name)
+        result = nse_helper.read_monthly_csv_for_company(valid_month,valid_year,valid_company_name)
         print(result)
         #Expect a list of dictionarioes in returns in return
         self.assertIsInstance(result,list)
@@ -53,7 +53,7 @@ class test_data_csv(unittest.TestCase):
     #     self.assertIsNone(result)
 
     def test_sort_list(self):
-        dummy_list = nse_helper.read_monthly_csv("10","2023","INFY")
+        dummy_list = nse_helper.read_monthly_csv_for_company("10","2023","INFY")
         valid_key = "CLOSE"
         print("\n \n test_sort_list :: input\n \n",dummy_list)
         print("\n \n test_sort_list :: valid_key\n \n",valid_key)

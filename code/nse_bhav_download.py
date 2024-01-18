@@ -73,8 +73,8 @@ def check_time(argument):
     
     Parameters:
     -----------
-    argument: datetime.date
-        Is datetime.date object which has local date and time in it
+    argument: datetime.datetime
+        Is datetime.datetime object which has local date and time in it
     
     Returns:
     --------
@@ -151,12 +151,17 @@ def verify_date(input_date: date):
             print("verify_date :: Kindly wait until the market resumes at 9:00 hrs IST on ", input_date)
             return False
         #Checks for Holidays
-        for i in range(0 , len(NSE_HOLIDAYS)):
-            if (NSE_HOLIDAYS[i] > input_date):
-                break
-            if ( input_date == NSE_HOLIDAYS[i] ):
-                print("verify_date :: Holiday, Market closed on ", input_date)
-                return None                
+        if input_date in NSE_HOLIDAYS:
+            print("verify_date :: Holiday, Market closed on ", input_date)
+            return None 
+        
+        # for i in range(0 , len(NSE_HOLIDAYS)):
+        #     if (NSE_HOLIDAYS[i] > input_date):
+        #         break
+        #     if ( input_date == NSE_HOLIDAYS[i] ):
+        #         print("verify_date :: Holiday, Market closed on ", input_date)
+        #         return None                
+
         #Checks for Weekend
         if(input_date.strftime("%w") == "6" or input_date.strftime("%w") == "0"):
             print("verify_date :: Weekend, Market Closed on ", input_date)
@@ -267,7 +272,7 @@ def check_file(csv_file_name = str):
         else:
             return False
     else:
-        return False    
+        return None    
 
 def compose_url(url_date):
     """Creates a url for an given date
@@ -399,142 +404,3 @@ def download_file_for_year(year):
         return True
     else:
         return False        
-
-def process_input():
-    print("Do you want to fetch files for a single date or for a range?")
-    print("1: Single day")
-    print("2: Range")
-    c = input()
-    c = int(c)
-    match c:
-        case 1:  
-            print("Enter Day")
-            dd = input()
-            # dd = "2"
-            dd = check_day(dd)
-            if(dd == None):
-                exit(0)
-
-            print("Enter Month")
-            mm = input()
-            # mm = "11"
-            mm = check_month(mm)
-            if(mm == None):
-                exit(0)
-
-            print("Enter Year")
-            # yy = "2023"
-            yy = input()
-            yy = check_year(yy)
-            if(yy == None):
-                exit(0)
-
-            #stores the date input by the user
-            input_date = date(yy,mm,dd)
-            input_date = verify_date(input_date)
-            if(input_date == None):
-                exit(0)
-            try:
-                url = compose_url(input_date)
-                file_path = compose_file_path(input_date)
-            except Exception as e:
-                print("The following error occured: \n ",)
-
-        
-    
-        case 2: 
-            print("Enter start day")
-            sd = input()
-            sd = check_day(sd)
-            sd = int(sd)
-
-            if (sd == None):
-                exit(0)
-
-            print("Enter start month")
-            sm = input()
-            sm = check_month(sm)
-            sm = int(sm)
-
-            if (sm == None):
-                exit(0)
-
-            print("Enter start Year")
-            sy = input() 
-            sy = check_year(sy)
-            sy = int(sy)
-
-            if (sy == None):
-                exit(0)
-
-            print("Enter end day")
-            ed = input()
-            ed = check_day(ed)
-            ed = int(ed)
-
-            if (ed == None):
-                exit(0)
-
-            print("Enter end month")
-            em = input()
-            em = check_month(em)
-            em = int(em)
-
-            if (em == None):
-                exit(0)
-
-            print("Enter end Year")
-            ey = input()
-            ey = check_year(ey)
-            ey = int(ey)
-
-            if (ey == None):
-                exit(0)
-
-            try:
-                start_date = date(sy,sm,sd)
-                end_date = date(ey,em,ed)
-            except Exception as E:
-                print("The following error occured: \n ", E)
-
-            td = date.today()
-            if (end_date > td):
-                print("Data not available for future dates. Kindly fecth data on or before "+ td.strftime("%d %m %Y"))
-                exit(0)
-
-        # print(start_date," ",end_date)
-
-            for y in range(sy,ey+1):
-            # print("Program on sleep for 5 seconds")
-            # print(start_date," ",end_date,"/n")
-            # time.sleep(5.0)
-                for m in range(sm,13):
-                    for d in range(sd,32):
-                        try:
-                            if(start_date == end_date):
-                            # print("Done")
-                                break
-                            start_date =date(sy,m,d)
-
-                            print(start_date)
-                            if(d==31):
-                                if(m==1 or m==3 or m==5 or m==7 or m==8 or m==10 or m==12):
-                                    sm=sm+1
-                            if(d==30):
-                                if(m==4 or m==6 or m==9 or m==11):
-                                    sm=sm+1
-                            if(d==28 and sy%4!=0):
-                                if(m==2):        
-                                    sm = sm+1
-                            if(d==29 and sy%4==0):
-                                if(m==2):
-                                    sm=sm+1
-                            if(m == 12 and d == 31):
-                                sm = 1
-                                sy = sy + 1
-                            if(d == 31):
-                                sd = 1   
-                        except:
-                            continue
-
-# process_input()
