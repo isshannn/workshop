@@ -1,63 +1,21 @@
-# Objective
-The objective of this week is to as following
-    - [X] Complete the spill-over from the past week (on priority - as described in the `Tech Debt`
-      section towards the end of this document.)
-    - Learn sorting with the following objective
-        -- Basic Bubble sort using simple array like data
-        -- Advanced bubble sort using objects
-            --- [X]Download bhav copies for a fixed period like a month or a year (or you can use existing downloaded ones)
-            --- [X]Take a company name (as user input)
-            --- [X]Find the data for the provided time period for the given company
-            --- [X]Compose this data as an array of Python objects
-            --- Sort this data based on a key like 'High' or 'Low' field of the data
+# About
+This project aims to scrap csv data(Bhavcopy file) from the website "https://www.nseindia.com/all-reports" (denoted as bhav_copy) and manipulate the fetched data as and per end user requirements.
 
-# Programming Challenge
+# Current Status of the project
+The api of the project is under construction and not fully implemented. The stand-alone python codes are unittested and are able to download and store daily,weekly,montly and yearly bhav_copy.
+Separate .csv files of listed companies can be created for weekly reports. Top Gainers and loosers of the week can be displayed.
 
-- Example of bhav copy data sorting
-Assume that you have bhav copy for a year (this could be YTD or month or a given quarter like Q1 of 2023 or H1 of 2023.
-    - [X] Collect the data for the given symbol for the given time period.
-    - [X] Sort this data using the sorting algorithm you have developed.
-    - [X] Show the result.
-        -- The result could be "What was the data on which the stock gained max. % compared to the previous trading session/date?"
-        -- Show the entire object in the output.
+# Walkthrough
+Weekly Progress are documentated in folders week_**. Standalone code and api is present inside the folder "code". Folders with lable practise are dummy folders for code trials and can be ignored for the purpose of the project. 
 
-## Backgraound of files under consideration
+# Dependencies
+[1] Python 3.10 and higher
+[2] Pandas
+[3] Flask
+[4] Flask_restful
+[5] urlparse
+[6] zipfile
 
-NSE publishes daily bhavcopy of the stocks (also called securities) exchanged (which is bought and sold) for each company. There is 1 bhavcopy published per day but NSE provides URL to download files for historical dates.
-
-## File format specifications
-
-  "symbol": Name of the company (for example INFY stands for INFOSYS)
-  "series": Instrument series. For example, "EQ" stands for equities. You can use only "EQ" series.
-  "open": The opening price of the stock.
-  "high": The high price of the stock that was witnessed on the trading day.
-  "low": The low price of the stock that was witnessed on the trading day.
-  "close": The closing price of the stock.
-  "last": The last traded price price of the stock. (this is also called the last tick-price)
-  "previous_close": The previous day closing price of the stock.
-  "total_traded_quantity": Volumes or the quantities of the stock traded.
-  "total_traded_value": It's the sum of volume traded and price at which the trade took place.
-  "timestamp": Represents the trading date.
-  "total_trades": Total number of trades that took place. Remeber that 1 trade can involve more than 1 stock
-  "isin": Unique identification of a stock. This field is not significant now.
-
-## Validations
-
-## Comments on code 
-
-## Parking Lot
-
-[ ] 1. Solid Principle of OOP
-
-## Questions
-
- 1. [ ] Q. For refernce please terms FY, Q1 , H1 . 
-          ---
- 2. [ ]          
-
-## Tech Debt Items
-
-These are the spillovers from the past week that need to be addressed in the current week.
-    -[X] A download url should be tried for maximum 30 seconds
-    - 
-
+# Future Features
+[ ] A full fleged api with flexible data manipulation wrt any input time period.
+[ ] A website with for simpler UI.
