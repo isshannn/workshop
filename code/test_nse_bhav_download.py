@@ -58,6 +58,11 @@ class TestFileUtils(unittest.TestCase):
         result = NSE.check_file(none_input)
         self.assertIsNone(result)
 
+        # Check for an existing file, expect True in return
+        input_file_exist = "cm01APR2022bhav.csv"
+        result = NSE.check_file(input_file_exist)
+        self.assertTrue(result)
+
     def test_compose_file_path(self):
         
         # For any valid date expect string return
@@ -167,6 +172,10 @@ class TestFileUtils(unittest.TestCase):
         input_null = None
         result = NSE.check_day(input_null)
         self.assertIsNone(result)
+
+        # # Check for no argument
+        # result=NSE.check_day()
+        # self.assertIsNone(result)
 
         # For non decimal string input expect a None return
         input_non_decimal = "abc"

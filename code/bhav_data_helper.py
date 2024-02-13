@@ -70,29 +70,41 @@ def return_single_day_csv(csv_date : date):
      dataframe : pandas.DataFrame()
         A csv file converted into a pandas.DataFrame object.
 
-    """
-     # print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
-    zip_file_name_org = nse_downloader.compose_file_path(csv_date)
-    zip_file_name = ""
-    if zip_file_name_org:
-         zip_file_name = zip_file_name_org.lstrip("/")
-    # print("read_daily_csv: Zip File name: [ ", zip_file_name," ]")
-    # Remove the trailing ".zip"
-    tmp_file_name = zip_file_name.rstrip(".zip")
-    csv_file_name = tmp_file_name + ".csv"
-    # print("read_daily_csv: csv_file_name: [ ", csv_file_name," ]")
-    # The bhav copies are in bhav_copy folder of current directory
-    csv_file_path = os.path.join(nse_constants.BASE_DIR, csv_file_name)
-    # print("read_daily_csv: CSV File path: [ ", csv_file_path," ]")
-    if(not nse_downloader.check_file(csv_file_name)):
-        # print("read_daily_csv: The required CSV file not found . . . Downloading!")
-        url = nse_downloader.compose_url(csv_date)
-        nse_downloader.download_file(url,os.path.join(os.path.curdir, "bhav_copy"))
-    # print("read_daily_csv: File path for CSV: [ ", csv_file_path," ]")
+    None :
+        If the input argument is invalid.
 
-    with open(csv_file_path,'r') as csv_file:
-       dataframe = pd.read_csv(csv_file)
-    return dataframe
+    """
+    # Check for valid date
+    csv_date = nse_downloader.verify_date(csv_date)
+    if (type(csv_date) == date):
+        # print(f"read_single_csv: start: csv_date: [{csv_date}] company_name: [{company_name}] ")
+        zip_file_name_org = nse_downloader.compose_file_path(csv_date)
+        zip_file_name = ""
+        if zip_file_name_org:
+            zip_file_name = zip_file_name_org.lstrip("/")
+        # print("read_daily_csv: Zip File name: [ ", zip_file_name," ]")
+        # Remove the trailing ".zip"
+        tmp_file_name = zip_file_name.rstrip(".zip")
+        csv_file_name = tmp_file_name + ".csv"
+        # print("read_daily_csv: csv_file_name: [ ", csv_file_name," ]")
+        # The bhav copies are in bhav_copy folder of current directory
+        csv_file_path = os.path.join(nse_constants.BASE_DIR, csv_file_name)
+        # print("read_daily_csv: CSV File path: [ ", csv_file_path," ]")
+        if(not nse_downloader.check_file(csv_file_name)):
+            # print("read_daily_csv: The required CSV file not found . . . Downloading!")
+            url = nse_downloader.compose_url(csv_date)
+            nse_downloader.download_file(url,tmp_file_name)
+            # nse_downloader.download_file(url,os.path.join(os.path.curdir, "bhav_copy"))
+        # print("read_daily_csv: File path for CSV: [ ", csv_file_path," ]")
+        
+        with open(csv_file_path,'r') as csv_file:
+            dataframe = pd.read_csv(csv_file)
+            return dataframe
+    else:
+        print("return_single_day_csv :: Input Error")
+        return None    
+
+
 
 def read_csv_for_company(csv_date = date, company_name = str):
     """Helper Function which reads a single bhav_CSV file for the specified Date for a specified company
@@ -150,7 +162,6 @@ def read_csv_for_company(csv_date = date, company_name = str):
     if not company_name_found:
         print("read_single_csv: The data you are looking for is not found!")
         return None
-    return None
 
 # Read data for a month
 def read_monthly_csv_for_company(month_number = str,year_number = str,company_name = str):
@@ -211,7 +222,7 @@ def read_yearly_csv_for_company(year_number = str, company_name = str):
 
     company_name : str
         The acrronym of the company listed in NSE for which the data is to be fetched.
-
+        
     Returns:
     --------
     A list which contains the bhav_csv_data of the company for the provided year. 
@@ -269,13 +280,22 @@ def sort_list(stock_list = list,key = str):
     
     Returns:
     --------
-    Sorted list of dictionary(in ascending order) according to the Key passed
+    stock_list :
+        Sorted list of dictionary(in ascending order) according to the Key passed
+
+    None :
+        If the argument is not of datatype list
     """
-    list_len = len(stock_list)
-    for x in range(list_len):
-        for y in range(0,list_len-x-1):
-            if (stock_list[y][key] > stock_list[y+1][key]):
-                temp = stock_list[y+1]
-                stock_list[y+1] = stock_list[y]
-                stock_list[y] = temp
-    return stock_list
+    if (type(sort_list) == list): 
+        list_len = len(stock_list)
+        for x in range(list_len):
+            for y in range(0,list_len-x-1):
+                if (stock_list[y][key] > stock_list[y+1][key]):
+                    temp = stock_list[y+1]
+                    stock_list[y+1] = stock_list[y]
+                    stock_list[y] = temp
+        return stock_list
+    else:
+        print("sort_list :: Invalid datatype passed")
+        return None
+    

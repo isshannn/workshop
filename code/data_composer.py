@@ -5,42 +5,6 @@ import nse_bhav_download as nse_date_checker
 import bhav_data_helper as nse_csv_composer
 import os
 
-def nearest_trading_day(input_date : date):
-    """Function returns the date which falls on Monday of the input date's week. If the input_date is of an incomplete on going week, returns False.
-    Parameters:
-    -----------
-    input_date : date
-        A date which is scanned to be a weekday or weekend.
-    
-    Returns:
-    --------
-    output_date : date
-        Nearest trading date which falls on Monday, wrt to input_date.
-    False if the Input date is in future/on-going week
-    """
-    current_date = date.today()
-    date_status = nse_date_checker.verify_date(input_date)
-    if (type(date_status) != date):
-        return False
-    td_1 = timedelta(days=1)
-
-    # Considering Week is from (Sun-Sat) if the input is ongoing Sat,i.e the last day of week returns Monday of the same on-going week
-    if(input_date.isoweekday() == 6 and input_date == current_date):
-        return (input_date - (5*td_1))
-    if(input_date.isoweekday() == 7 and input_date >= current_date):
-        print("nearest_trading_day :: CANT FETCH FILES FOR THE UPCOMING WEEK. PLEASE ENTER A PAST DATE")
-        return False
-    # print("nearest_trading_day :: date_status =  ",date_status)
-    if (date_status == None or type(date_status) == date):
-        week_of_day = input_date.isoweekday()
-        while(week_of_day != 1):
-            input_date = input_date - td_1
-            week_of_day = input_date.isoweekday()
-        return input_date
-    if (not type(date_status) == False):
-        print("nearest_trading_day :: CANT FETCH FILES FOR THE UPCOMING WEEK. PLEASE ENTER A PAST DATE")
-        return False
-
 def compose_weekly_csv(start_date : date):
     """This function returns a group of csv files for the working days of the week
     Parameters:
@@ -89,8 +53,53 @@ def compose_weekly_csv(start_date : date):
     # playground_file(file)
     return file
 
+def compose_monthly_file(month_number : int, year_number: int) :
+    """Helper function to return a dataframe which contains the monthly bhav_data of a company
+    
+    Parameters:
+    -----------
+    month_number : int
+        The month(represented by equivalent number {Jan:1, Feb:2, ... ,Dec:12}) for which the bhav_data of the company is to be fetched. Cant be a upcoming month
+
+    input_year : int
+        The year for which the monthly bhav_data is to be fetched. Note that the input year cant be in future.
+
+    Returns:
+    --------
+    """
+
+    # Validity Checks for arguments to functions 
+    month_number = str(month_number)
+    year_number = str(year_number)
+    month_number = nse_date_checker.check_month(month_number)
+    if (month_number == None):
+            print("compose_monthly_file :: INVALID month_number input")
+            return None
+    year_number = nse_date_checker.check_year(year_number)
+    if (year_number == None):
+        print("compose_company_file :: INVALID year_number input")
+        return None
+    
+    # Convert month and year number to int datatype
+    month_number = int(month_number)
+    next_month = month_number + 1
+    year_number = int(year_number)
+
+    # Now we append each day of the month into a single unit and return it
+    day = date(year_number,month_number,1)
+    file = pd.DataFrame()
+    while(month_number != next_month):
+        try:
+            file = file._append(nse_csv_composer.return_single_day_csv(day), ignore_index = True)
+            day = day + timedelta(days=1)
+            month_number = int(day.strftime("%m"))
+        except:
+            day = day + timedelta(days=1)
+    
+    return file
+
 def compose_company_file(file : pd.DataFrame, company_name: str):
-    """Helper function which constructs a DataFrame for storing a Company's weekly bhav_data
+    """Helper function which returns a Dataframe containing a companys bhav_data from another Dataframe containing multiple bhav_data.
     Parameters:
     -----------
     file : pandas.DataFrame
@@ -104,8 +113,8 @@ def compose_company_file(file : pd.DataFrame, company_name: str):
     company_file : pandas.DataFrame
         A DataFrame which contains the bhav_data of the input company for the duration of a week    
     """
-    if(type(file) == None):
-        print("compose_company_file :: File not found")
+    if(type(file) !=pd.DataFrame or company_name == None):
+        print("compose_company_file :: File not found / comapany name not provided")
         return None
     company_file = file.loc[file.SYMBOL == company_name]
     # This is to suppress warning about SettingWithCopyWarning
@@ -161,11 +170,12 @@ def view_Gain_loss_all_weekly(start_date : date):
     """
     start_date = nearest_trading_day(start_date)
     if(type(start_date) != date):
-        print("INVALID INPUT")
+        print("view_gain_loss_all_weekly :: INVALID INPUT")
         return None
     file = compose_weekly_csv(start_date)
-    if (type(file) == None):
-        return False
+    if(type(file) != pd.DataFrame):
+        if (file == None):
+            return False
     # creates csv file for each listed company for the input week.
     bhav_to_csv(file)
     Gain_Loss_Data_Frame = pd.DataFrame(columns = ["SYMBOL","FIRST_OPEN","LAST_CLOSE","GAIN_LOSS"])
@@ -182,3 +192,42 @@ def view_Gain_loss_all_weekly(start_date : date):
     Gain_Loss_Data_Frame["GAIN_LOSS"] = ( (Gain_Loss_Data_Frame["LAST_CLOSE"] - Gain_Loss_Data_Frame["FIRST_OPEN"]) / Gain_Loss_Data_Frame["FIRST_OPEN"] ) * 100
     print(Gain_Loss_Data_Frame)
     return Gain_Loss_Data_Frame.to_json()
+
+def nearest_trading_day(input_date : date):
+    """Function returns the date which falls on Monday of the input date's week. If the input_date is of an incomplete on going week, returns False.
+    Parameters:
+    -----------
+    input_date : date
+        A date which is scanned to be a weekday or weekend.
+    
+    Returns:
+    --------
+    output_date : date
+        Nearest trading date which falls on Monday, wrt to input_date.
+
+    False:
+        if the Input date is in future/on-going week
+    """
+    current_date = date.today()
+    date_status = nse_date_checker.verify_date(input_date)
+    if (type(date_status) != date):
+        if (date_status == None) :
+            return nearest_trading_day(input_date - timedelta(days=1))
+        if (date_status == False):
+            print("nearest_trading_day :: CANT FETCH FILES FOR THE UPCOMING WEEK. PLEASE ENTER A PAST DATE")
+            return False
+    td_1 = timedelta(days=1)
+
+    # Considering Week is from (Sun-Sat) if the input is ongoing Sat,i.e the last day of week returns Monday of the same on-going week
+    if(input_date.isoweekday() == 6 and input_date == current_date):
+        return (input_date - (5*td_1))
+    if(input_date.isoweekday() == 7 and input_date >= current_date):
+        print("nearest_trading_day :: CANT FETCH FILES FOR THE UPCOMING WEEK. PLEASE ENTER A PAST DATE")
+        return False
+    # print("nearest_trading_day :: date_status =  ",date_status)
+    if (date_status == None or type(date_status) == date):
+        week_of_day = input_date.isoweekday()
+        while(week_of_day != 1):
+            input_date = input_date - td_1
+            week_of_day = input_date.isoweekday()
+        return input_date

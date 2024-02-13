@@ -144,7 +144,7 @@ def verify_date(input_date: date):
         False if the date is in future, or the csv_data for the current date isnt made yet \n
         The input date if the input is a valid date
     """
-    if input_date:
+    if (input_date):
         today_date =  date.today()
         #Checks for future date
         if (today_date < input_date):
@@ -190,7 +190,8 @@ def compose_file_path(sample_date):
 
     Returns:
     --------
-    str if the filepath is created succesfully
+    str : 
+        if the filepath is created succesfully
     """ 
     if(sample_date):
         file_path = "/cm" + sample_date.strftime("%d") + sample_date.strftime("%b").upper() + sample_date.strftime("%Y") +"bhav.zip"
@@ -199,17 +200,16 @@ def compose_file_path(sample_date):
         return None
 
 
-def download_file(url,file_path):
-    """Helper function to download a file for a given url. 
-        This function takes a url and a string argument which is a file path, returns True if a file download is successful or None if it fails.
+def download_file(url,file_name):
+    """Helper function to download a file for a given url. This function takes a url and a string argument which is a file path, returns True if a file download is successful or None if it fails.
 
     Parameters:
     -----------
     url: str
         A string which contains the url of the file to be downloaded. For each date the url is unique
     
-    file_path: str
-        A string which contains the path to which the downloaded file is unzipped and stored at
+    file_name: str
+        A string representing the name of the csv file.
     
     Returns:
     --------
@@ -217,9 +217,9 @@ def download_file(url,file_path):
         None if the file download fails/File exists; else returns True.
     """
     if (url):
-        if check_file(file_path):
-            print("File Exists")
-            return None
+        # if check_file(file_path):
+        #     print("File Exists")
+        #     return None
         print("download_file :: URL to download= [", url, "]")
         try:
             res = requests.get(url, allow_redirects=True,timeout=5.00)
@@ -230,16 +230,16 @@ def download_file(url,file_path):
             # print("Server down. Please try again later")
             pass
         # Note that the address is fetched automatically from constants.py
-        file_path = file_path.lstrip("/")
-        f = open(os.path.join(BASE_DIR,file_path), 'wb').write(res.content)
+        file_name = file_name.lstrip("/")
+        f = open(os.path.join(BASE_DIR,file_name), 'wb').write(res.content)
         # the adresses here point to the zip file downloaded and to where it's extracted
         print("BASE_DIR: [", BASE_DIR, "]")
-        print("file [", os.path.join(BASE_DIR,file_path), "]")
-        with ZipFile(os.path.join(BASE_DIR,file_path), "r") as unzip:
+        print("file [", os.path.join(BASE_DIR,file_name), "]")
+        with ZipFile(os.path.join(BASE_DIR,file_name), "r") as unzip:
             unzip.extractall(path=BASE_DIR)
-        if (os.path.exists(os.path.join(BASE_DIR,file_path))):
-            print("download_file: Removing path= ",os.path.join(BASE_DIR,file_path))
-            os.remove(os.path.join(BASE_DIR,file_path))
+        if (os.path.exists(os.path.join(BASE_DIR,file_name))):
+            print("download_file: Removing path= ",os.path.join(BASE_DIR,file_name))
+            os.remove(os.path.join(BASE_DIR,file_name))
         return True
     print("download_url :: None Value passed")
     return None
