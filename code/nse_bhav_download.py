@@ -3,7 +3,7 @@ from zipfile import ZipFile
 from datetime import date,datetime
 import os
 from constants import BASE_DIR, NSE_HOLIDAYS, BASE_URL
-from urllib.parse import urlparse
+# from urllib.parse import urlparse
 
 def check_day(argument):
     """Checks the validity of day entered

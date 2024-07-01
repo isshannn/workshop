@@ -5,7 +5,7 @@ from datetime import date,timedelta,datetime
 
 class TestFileUtils(unittest.TestCase):
     def test_compose_url_for_year(self):
-        test_year = "2022"
+        test_year = "2023"
         # No need check for future year since compose_url_for_year inherits test_year
         test_year_null = None
         result = NSE.download_file_for_year(test_year)

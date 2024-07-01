@@ -58,6 +58,16 @@ class test_weekly_data_csv(unittest.TestCase):
         print("test_nearest_trading_day :: Function Output = ",result)
         self.assertIsInstance(result,date)
 
+        # Check for current date
+        input_current_date = date.today()
+        input_current_date_status = date.isoweekday(input_current_date)
+        if(input_current_date_status == 6 ):
+            result = data_composer.nearest_trading_day(input_current_date)
+            self.assertIsInstance(result,date)
+        elif(input_current_date_status == 7):
+            result = data_composer.nearest_trading_day(input_current_date)
+            self.assertFalse(result)
+
     
     def test_compose_weekly_csv(self):
        
